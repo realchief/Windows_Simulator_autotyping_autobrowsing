@@ -1,7 +1,10 @@
+
 from baseFunctions import *
 from keyboard import *
 from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import expected_conditions as EC
 
 
 class Browse():
@@ -23,7 +26,11 @@ class Browse():
         time.sleep(2)
 
     def browsing(self, url):
-        print(dumpwindow(handle=search_window()))
+        """
+        Type URL in address bar.
+        :param url: 
+        :return: 
+        """
         for child in dumpwindow(handle=search_window())['children']:
             print(dumpwindow(handle=child))
             if dumpwindow(handle=child)['text'] == 'Address Bar':
@@ -52,13 +59,66 @@ class Browse():
         submit_button = self.driver.find_element_by_id('login_btn')
         location = submit_button.location
         move_click_browser(self.browser_x + location['x'], self.browser_y + location['y'])
-        WebDriverWait(self.driver, 20)
+        table = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//section[@id='pm_sidebar']")))
 
     def read_inbox(self):
-        time.sleep(5)
-        inbox = self.driver.find_element_by_css_selector('subject-text ellipsis')
+        inbox = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='inbox']")
         inbox_location = inbox.location
+        print('Inbox location: {}'.format(inbox_location))
+
         move_click_browser(self.browser_x + inbox_location['x'], self.browser_y + inbox_location['y'])
+        inbox_table = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@id='conversation-list-columns']")))
+
+
+
+    def compose_mail(self):
+        compose = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//button")
+        compose_location = compose.location
+        print('compose location: {}'.format(compose_location))
+
+    def read_drafts(self):
+        drafts = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='drafts']")
+        drafts_location = drafts.location
+        print('drafts location: {}'.format(drafts_location))
+
+        move_click_browser(self.browser_x + drafts_location['x'], self.browser_y + drafts_location['y'])
+
+    def read_sent(self):
+        sent = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='sent']")
+        sent_location = sent.location
+        print('sent location: {}'.format(sent_location))
+
+        move_click_browser(self.browser_x + sent_location['x'], self.browser_y + sent_location['y'])
+
+    def read_starred(self):
+        starred = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='starred']")
+        starred_location = starred.location
+        print('starred location: {}'.format(starred_location))
+
+        move_click_browser(self.browser_x + starred_location['x'], self.browser_y + starred_location['y'])
+
+    def read_archive(self):
+        archive = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='archive']")
+        archive_location = archive.location
+        print('archive location: {}'.format(archive_location))
+
+        move_click_browser(self.browser_x + archive_location['x'], self.browser_y + archive_location['y'])
+
+    def read_spam(self):
+        spam = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='spam']")
+        spam_location = spam.location
+        print('spam location: {}'.format(spam_location))
+
+        move_click_browser(self.browser_x + spam_location['x'], self.browser_y + spam_location['y'])
+
+    def read_trash(self):
+        trash = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='trash']")
+        trash_location = trash.location
+        print('Trash location: {}'.format(trash_location))
+
+        move_click_browser(self.browser_x + trash_location['x'], self.browser_y + trash_location['y'])
 
     def google(self):
         self.browsing('https://google.com')
@@ -73,6 +133,6 @@ class Browse():
 if __name__ == '__main__':
 
     browser = Browse()
-    browser.google()
-    # browser.login()
-    # browser.read_inbox()
+    # browser.google()
+    browser.login()
+    browser.read_inbox()
