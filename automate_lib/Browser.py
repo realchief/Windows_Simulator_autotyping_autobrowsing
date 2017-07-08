@@ -1,4 +1,3 @@
-
 from baseFunctions import *
 from keyboard import *
 from selenium import webdriver
@@ -59,8 +58,18 @@ class Browse():
         submit_button = self.driver.find_element_by_id('login_btn')
         location = submit_button.location
         move_click_browser(self.browser_x + location['x'], self.browser_y + location['y'])
-        table = WebDriverWait(self.driver, 10).until(
+        time.sleep(5)
+        WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, "//section[@id='pm_sidebar']")))
+
+    def read_conversation_items(self):
+        inbox_table = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@id='conversation-list-columns']")))
+
+        inbox_lists = inbox_table.find_elements_by_class_name('conversation-meta')
+        for inbox_item in inbox_lists:
+            move_click_browser(self.browser_x + inbox_item.location['x'], self.browser_y + inbox_item.location['y'])
+            time.sleep(3)
 
     def read_inbox(self):
         inbox = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='inbox']")
@@ -68,15 +77,7 @@ class Browse():
         print('Inbox location: {}'.format(inbox_location))
 
         move_click_browser(self.browser_x + inbox_location['x'], self.browser_y + inbox_location['y'])
-        inbox_table = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//div[@id='conversation-list-columns']")))
-
-
-
-    def compose_mail(self):
-        compose = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//button")
-        compose_location = compose.location
-        print('compose location: {}'.format(compose_location))
+        self.read_conversation_items()
 
     def read_drafts(self):
         drafts = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='drafts']")
@@ -85,12 +86,15 @@ class Browse():
 
         move_click_browser(self.browser_x + drafts_location['x'], self.browser_y + drafts_location['y'])
 
+        self.read_conversation_items()
+
     def read_sent(self):
         sent = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='sent']")
         sent_location = sent.location
         print('sent location: {}'.format(sent_location))
 
         move_click_browser(self.browser_x + sent_location['x'], self.browser_y + sent_location['y'])
+        self.read_conversation_items()
 
     def read_starred(self):
         starred = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='starred']")
@@ -98,6 +102,7 @@ class Browse():
         print('starred location: {}'.format(starred_location))
 
         move_click_browser(self.browser_x + starred_location['x'], self.browser_y + starred_location['y'])
+        self.read_conversation_items()
 
     def read_archive(self):
         archive = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='archive']")
@@ -105,6 +110,7 @@ class Browse():
         print('archive location: {}'.format(archive_location))
 
         move_click_browser(self.browser_x + archive_location['x'], self.browser_y + archive_location['y'])
+        self.read_conversation_items()
 
     def read_spam(self):
         spam = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='spam']")
@@ -112,6 +118,7 @@ class Browse():
         print('spam location: {}'.format(spam_location))
 
         move_click_browser(self.browser_x + spam_location['x'], self.browser_y + spam_location['y'])
+        self.read_conversation_items()
 
     def read_trash(self):
         trash = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//li[@data-key='trash']")
@@ -119,20 +126,44 @@ class Browse():
         print('Trash location: {}'.format(trash_location))
 
         move_click_browser(self.browser_x + trash_location['x'], self.browser_y + trash_location['y'])
+        self.read_conversation_items()
+
+    def compose_mail(self):
+        compose = self.driver.find_element_by_xpath("//section[@id='pm_sidebar']//button")
+        compose_location = compose.location
+        move_click_browser(self.browser_x + compose_location['x'], self.browser_y + compose_location['y'])
+
+        tomail_form = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//form[@id='composeForm']//input[@name='autocomplete']")))
+        move_click_browser(self.browser_x + tomail_form.location['x'], self.browser_y + tomail_form.location['y'])
+
+
+    def close_borwser(self):
+        self.driver.quit()
+
+    def logout(self):
+        user_button = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@id='body']//li[@class='navigationUser']")))
+
+        move_click_browser(self.browser_x + user_button.location['x'], self.browser_y + user_button.location['y'])
+
+        time.sleep(3)
+        logout_button = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located(
+                (By.XPATH, "//div[@id='body']//li[@class='navigationUser']//a[@ui-sref='login']")))
+
+        move_click_browser(self.browser_x + logout_button.location['x'], self.browser_y + logout_button.location['y'])
 
     def google(self):
         self.browsing('https://google.com')
         time.sleep(3)
         search_box = self.driver.find_element_by_name('q')
         move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'])
-
-    def close_borwser(self):
-        self.driver.quit()
+        time.sleep(3)
 
 
 if __name__ == '__main__':
-
     browser = Browse()
     # browser.google()
     browser.login()
-    browser.read_inbox()
+    browser.logout()
