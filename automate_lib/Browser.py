@@ -133,10 +133,29 @@ class Browse():
         compose_location = compose.location
         move_click_browser(self.browser_x + compose_location['x'], self.browser_y + compose_location['y'])
 
-        tomail_form = WebDriverWait(self.driver, 10).until(
-            EC.presence_of_element_located((By.XPATH, "//form[@id='composeForm']//input[@name='autocomplete']")))
+        tomail_form = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "//form[@id='pm_composer']//input[@name='autocomplete']")))
         move_click_browser(self.browser_x + tomail_form.location['x'], self.browser_y + tomail_form.location['y'])
+        time.sleep(3)
 
+        keyboard.typemail('test@mail.com')
+        time.sleep(1)
+
+        title_form = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//form[@id='pm_composer']//input[@title='Subject']")))
+        move_click_browser(self.browser_x + title_form.location['x'], self.browser_y + title_form.location['y'])
+        time.sleep(3)
+        keyboard.typemail('From Test')
+
+        iframe = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//form[@id='pm_composer']//iframe[@class='squireIframe']")))
+        move_click_browser(self.browser_x + iframe.location['x'], self.browser_y + iframe.location['y'])
+        time.sleep(3)
+        keyboard.typemail('test')
+
+        send_button = WebDriverWait(self.driver, 10).until(
+            EC.presence_of_element_located((By.XPATH, "//form[@id='pm_composer']//button[@data-message='message']")))
+        move_click_browser(self.browser_x + send_button.location['x'], self.browser_y + send_button.location['y'])
 
     def close_borwser(self):
         self.driver.quit()
@@ -154,16 +173,37 @@ class Browse():
 
         move_click_browser(self.browser_x + logout_button.location['x'], self.browser_y + logout_button.location['y'])
 
-    def google(self):
+    def google_button(self):
+
+        button = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "//button[@id='_fZl']")))
+        move_click_browser(self.browser_x + button.location['x'], self.browser_y + button.location['y'])
+
+    def google_entry(self):
         self.browsing('https://google.com')
         time.sleep(3)
         search_box = self.driver.find_element_by_name('q')
         move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'])
         time.sleep(3)
+        keyboard.typewrite('title')
+        self.google_button()
+        self.search_google()
+
+    def search_google(self):
+        item_element = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located((By.XPATH, "//div[@id='rso']")))
+        items = self.driver.find_elements_by_xpath("//div[@id='rso']//div[@class='g']")
+
+        for index, item in enumerate(items):
+            if index % 2 == 0:
+                scroll_mouse(3)
+            move_cursor_browser(self.browser_x + item.location['x'], self.browser_y + item.location['y'])
+            time.sleep(1)
 
 
 if __name__ == '__main__':
     browser = Browse()
-    # browser.google()
-    browser.login()
-    browser.logout()
+    browser.google_entry()
+    # browser.login()
+    # browser.logout()
+    # browser.compose_mail()
