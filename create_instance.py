@@ -2,14 +2,14 @@ import boto3
 import json
 import os
 import sys
-import paramiko
+import winrm
 import crypto
-import time
-
 sys.modules['Crypto'] = crypto
+
+import time
 from crypto.Cipher import PKCS1_v1_5
 from crypto.PublicKey import RSA
-import base64
+
 
 """
 Create EC2 instance randomly.
@@ -27,10 +27,12 @@ ec2_client = boto3.client('ec2',
                           aws_access_key_id=data["AWS_ACCESS_KEY"],
                           aws_secret_access_key=data["AWS_SECRET_KEY"],
                           region_name=data["AWS_REGION"])
+
 Instances = []
 
 
 class Instance():
+
     def __init__(self):
         print('starting to create instance randomly.')
 
@@ -41,14 +43,14 @@ class Instance():
         """
 
         with open('InstanceInfo.txt', 'w') as outfile:
-            outfile.writelines(data)
+            outfile.writelines(data + '\n')
 
     def read_info(self):
         """
         Read Information from InstanceInfo.txt file.
         :return: 
         """
-        with open('InstanceInfo.txt', 'w') as outfile:
+        with open('InstanceInfo.txt', 'r') as outfile:
             data = outfile.readlines()
             return data
 
@@ -75,7 +77,9 @@ class Instance():
         return plaintext
 
     def decrypt_ec2_secure_info(self):
-
+        """
+        Get windows password and save information to InstanceInfo.txt file.
+        """
         response = ec2_client.describe_instances()
         # Get all the instances and search for the instance based on the provided Tag - Name
         for reservation in response["Reservations"]:
@@ -83,7 +87,10 @@ class Instance():
                 print('Instance {}'.format(item))
                 password_data = ec2_client.get_password_data(InstanceId=item["InstanceId"])
                 win_pwd = self.decrypt(password_data['PasswordData'].decode('base64'))
-                print win_pwd
+                self.write_info(json.dumps({'id': item["InstanceId"],
+                                            'type': item['InstanceType'],
+                                            'winpwd': win_pwd,
+                                            'public_ip': item['PublicIpAddress']}))
 
     def create_multi_instances(self, Image_Id="ami-a0260bc0", Instance_Type="t2.micro", MinCount=1,
                                MaxCount=1, Key_Name="Windowskey", SubnetId='subnet-6acf8d32', **kwargs):
@@ -112,21 +119,28 @@ class Instance():
         :return:
         """
         instances = self.read_info()
+
         for item in instances:
-            instance_item = ec2_resource.Instance(item.split(',')[0])
+            instance_item = ec2_resource.Instance(json.loads(item)['id'])
             response = instance_item.terminate()
             print response
 
     def transfer_files_instance(self):
         """
-        connect to instance via ssh.
+        connect to instance via winrm that is windows remote management python library.
         :return: 
         """
-        pass
+        instances = self.read_info()
+        for item in instances:
+            pass
 
+        s = winrm.Session('windows-host.example.com', auth=('Administrator', 'secret'))
+        r = s.run_cmd('ipconfig', ['/all'])
+        print r.status_code
 
 if __name__ == '__main__':
     instance = Instance()
     # instance.create_key()
-    # instance.create_multi_instances()
-    instance.decrypt_ec2_secure_info()
+    instance.create_multi_instances()
+    # instance.decrypt_ec2_secure_info()
+    # instance.terminate_multi_instances()
