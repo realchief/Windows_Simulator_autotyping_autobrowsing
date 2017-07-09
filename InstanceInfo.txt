@@ -1,0 +1,1 @@
+{"public_ip": "54.67.17.178", "type": "t2.micro", "id": "i-04203d5a2954fe63a", "winpwd": "BooQxBvJ!A"}
