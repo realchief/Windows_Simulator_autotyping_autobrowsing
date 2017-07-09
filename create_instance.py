@@ -5,11 +5,10 @@ import sys
 import winrm
 import crypto
 sys.modules['Crypto'] = crypto
-
-import time
 from crypto.Cipher import PKCS1_v1_5
 from crypto.PublicKey import RSA
-
+import time
+import paramiko
 
 """
 Create EC2 instance randomly.
@@ -92,7 +91,7 @@ class Instance():
                                             'winpwd': win_pwd,
                                             'public_ip': item['PublicIpAddress']}))
 
-    def create_multi_instances(self, Image_Id="ami-a0260bc0", Instance_Type="t2.micro", MinCount=1,
+    def create_multi_instances(self, Image_Id="ami-65f6d905", Instance_Type="t2.micro", MinCount=1,
                                MaxCount=1, Key_Name="Windowskey", SubnetId='subnet-6acf8d32', **kwargs):
         """
         Create multi instances with Testkey file.
@@ -128,23 +127,9 @@ class Instance():
         with open('InstanceInfo.txt', "w"):
             pass
 
-    def transfer_files_instance(self):
-        """
-        connect to instance via winrm that is windows remote management python library.
-        :return: 
-        """
-        instances = self.read_info()
-        for item in instances:
-            print(json.loads(item)['public_ip'], json.loads(item)["winpwd"])
-            s = winrm.Session(json.loads(item)['public_ip'], auth=('Administrator', json.loads(item)["winpwd"]))
-            print(s)
-            r = s.run_cmd('ipconfig', ['/all'])
-            print r.status_code
-
 if __name__ == '__main__':
     instance = Instance()
     # instance.create_key()
     # instance.create_multi_instances()
     # instance.decrypt_ec2_secure_info()
     # instance.terminate_multi_instances()
-    instance.transfer_files_instance()
