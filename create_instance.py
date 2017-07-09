@@ -125,6 +125,9 @@ class Instance():
             response = instance_item.terminate()
             print response
 
+        with open('InstanceInfo.txt', "w"):
+            pass
+
     def transfer_files_instance(self):
         """
         connect to instance via winrm that is windows remote management python library.
@@ -132,15 +135,16 @@ class Instance():
         """
         instances = self.read_info()
         for item in instances:
-            pass
-
-        s = winrm.Session('windows-host.example.com', auth=('Administrator', 'secret'))
-        r = s.run_cmd('ipconfig', ['/all'])
-        print r.status_code
+            print(json.loads(item)['public_ip'], json.loads(item)["winpwd"])
+            s = winrm.Session(json.loads(item)['public_ip'], auth=('Administrator', json.loads(item)["winpwd"]))
+            print(s)
+            r = s.run_cmd('ipconfig', ['/all'])
+            print r.status_code
 
 if __name__ == '__main__':
     instance = Instance()
     # instance.create_key()
-    instance.create_multi_instances()
+    # instance.create_multi_instances()
     # instance.decrypt_ec2_secure_info()
     # instance.terminate_multi_instances()
+    instance.transfer_files_instance()
