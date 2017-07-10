@@ -113,6 +113,7 @@ def click_mouse(type, coor_x=None, coor_y=None):
     :param coor_y: 
     :return: 
     """
+
     if coor_y == coor_x == None:
         time.sleep(random.uniform(stop_timea, stop_timeb))
         pyautogui.click(button=type)
