@@ -72,7 +72,7 @@ class Taskbar():
         #     move_click_cursor(dumpwindow(handle=All_Programs_handle)['rectangle'])
         #     scroll_mouse(10, 50)
         #     scroll_mouse(10, -50)
-        keyboard.hotkey('alt', 'esc')
+        keyboard.hotkey('CTRL', 'ESC')
 
     def clock_time(self):
         """
@@ -128,6 +128,7 @@ class Office():
         Randowm write the letters in wordpad.
         :return: 
         """
+        time.sleep(5)
         scrapy_content_newsurl()
 
     def close_save_office(self):
@@ -150,6 +151,8 @@ class Office():
         keyboard.typewrite('test')
         move_click_cursor(SaveButton)
 
+
+office = Office()
 
 if __name__ == '__main__':
     taskbar.Running_Application()
