@@ -43,7 +43,7 @@ def scrapy_content_newsurl():
                 else:
                     print('Text: {}'.format(text))
                     keyboard.typewrite(text)
-
+                    break
             try_count += 1
 
     except Exception as e:
