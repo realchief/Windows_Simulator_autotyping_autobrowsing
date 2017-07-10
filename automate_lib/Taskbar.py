@@ -54,25 +54,25 @@ class Taskbar():
             # move_click_cursor(OK_Button_POS)
 
     def start_menu(self):
-
-        move_click_cursor(self.shell_trayWnd.Rectangle())
-        children = dumpwindow(handle=search_window())['children']
-        print('children: {}'.format(children))
-
-        All_Programs_handle = None
-
-        # In Start Menu
-        for child in children:
-            print(dumpwindow(handle=child))
-            move_cursor(dumpwindow(handle=child)['rectangle'])
-            if dumpwindow(handle=child)['text'] == "All Programs":
-                All_Programs_handle = child
-
-        # In "All programs", scroll aciton.
-        if All_Programs_handle is not None:
-            move_click_cursor(dumpwindow(handle=All_Programs_handle)['rectangle'])
-            scroll_mouse(10, 50)
-            scroll_mouse(10, -50)
+        # move_click_cursor(self.shell_trayWnd.Rectangle())
+        # children = dumpwindow(handle=search_window())['children']
+        # print('children: {}'.format(children))
+        #
+        # All_Programs_handle = None
+        #
+        # # In Start Menu
+        # for child in children:
+        #     print(dumpwindow(handle=child))
+        #     move_cursor(dumpwindow(handle=child)['rectangle'])
+        #     if dumpwindow(handle=child)['text'] == "All Programs":
+        #         All_Programs_handle = child
+        #
+        # # In "All programs", scroll action.
+        # if All_Programs_handle is not None:
+        #     move_click_cursor(dumpwindow(handle=All_Programs_handle)['rectangle'])
+        #     scroll_mouse(10, 50)
+        #     scroll_mouse(10, -50)
+        keyboard.hotkey('alt', 'esc')
 
     def clock_time(self):
         """
@@ -88,6 +88,16 @@ class Taskbar():
             print(dumpwindow(handle=child))
             move_cursor(dumpwindow(handle=child)['rectangle'])
         move_click_cursor(trayClock.Rectangle())
+
+    def Running_Application(self):
+        """
+        Get Running Application
+        :return: 
+        """
+        mstaskwwclass = self.shell_trayWnd.MSTaskSwWClass
+        mstaskwwclass_wrap = mstaskwwclass.wrapper_object()
+
+        move_cursor(mstaskwwclass.Rectangle())
 
 
 taskbar = Taskbar()
@@ -142,5 +152,4 @@ class Office():
 
 
 if __name__ == '__main__':
-    word = Office()
-    word.close_save_office()
+    taskbar.Running_Application()
