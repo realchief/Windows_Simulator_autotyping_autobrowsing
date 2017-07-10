@@ -2,6 +2,7 @@ from __future__ import print_function
 
 from baseFunctions import *
 from web import *
+from datetime import datetime
 
 
 class Taskbar():
@@ -106,30 +107,35 @@ taskbar = Taskbar()
 class Office():
 
     def __init__(self):
-        taskbar.start_menu()
+        # taskbar.start_menu()
+        # time.sleep(3)
+        #
+        # keyboard.typewrite('wordpad')
+        # time.sleep(1)
+        #
+        # keyboard.hotkey('enter')
+        # time.sleep(3)
+
+        # print(dumpwindow(handle=search_window()))
+        # for child in dumpwindow(handle=search_window())['children']:
+        #     print(dumpwindow(handle=child))
+        #     move_cursor(dumpwindow(handle=child)['rectangle'])
+
         time.sleep(3)
-
-        keyboard.typewrite('wordpad')
-        time.sleep(1)
-
-        keyboard.hotkey('enter')
-        time.sleep(3)
-
-        print(dumpwindow(handle=search_window()))
-        for child in dumpwindow(handle=search_window())['children']:
-            print(dumpwindow(handle=child))
-            move_cursor(dumpwindow(handle=child)['rectangle'])
-
-        time.sleep(3)
-        keyboard.hotkey('enter')
+        # keyboard.hotkey('enter')
 
     def write_letters(self):
         """
         Randowm write the letters in wordpad.
         :return: 
         """
+        print('write letters')
         time.sleep(5)
         scrapy_content_newsurl()
+        time.sleep(3)
+        scroll_mouse(4, sensivity=50)
+        time.sleep(1)
+        scroll_mouse(9, sensivity=-20)
 
     def close_save_office(self):
         """
@@ -140,19 +146,33 @@ class Office():
         keyboard.close()
         time.sleep(2)
         keyboard.hotkey('enter')
+
         time.sleep(2)
         for child in dumpwindow(handle=search_window())['children']:
             print(dumpwindow(handle=child))
+            if dumpwindow(handle=child)['text'] == 'Rich Text Format (RTF) (*.rtf)':
+                move_click_cursor(dumpwindow(handle=child)['rectangle'])
+                time.sleep(1)
+                keyboard.keydown('down')
+                keyboard.hotkey('enter')
+
+            if dumpwindow(handle=child)['classname'] == 'Edit':
+                filename_editbox_rectangle = dumpwindow(handle=child)['rectangle']
 
             if dumpwindow(handle=child)['text'] == '&Save':
                 SaveButton = dumpwindow(handle=child)['rectangle']
                 break
+
         #  write the file name to save.
-        keyboard.typewrite('test')
+        filename = 'test-' + str(datetime.now().strftime('%Y-%m-%d-%H-%M-%S'))
+        move_click_cursor(filename_editbox_rectangle)
+        time.sleep(1)
+        keyboard.typewrite(filename)
+        time.sleep(.5)
         move_click_cursor(SaveButton)
 
 
 office = Office()
 
 if __name__ == '__main__':
-    taskbar.Running_Application()
+    office.close_save_office()
