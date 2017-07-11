@@ -152,7 +152,7 @@ class Office():
         time.sleep(2)
         for child in dumpwindow(handle=search_window())['children']:
             print(dumpwindow(handle=child))
-            if dumpwindow(handle=child)['text'] == 'Rich Text Format (RTF) (*.rtf)':
+            if dumpwindow(handle=child)['text'] == 'Rich Text Format (RTF)':
                 move_click_cursor(dumpwindow(handle=child)['rectangle'])
                 time.sleep(1)
                 keyboard.keydown('down')
@@ -167,14 +167,14 @@ class Office():
 
         #  write the file name to save.
         filename = 'test-' + str(datetime.now().strftime('%Y-%m-%d-%H-%M-%S'))
-        move_click_cursor(filename_editbox_rectangle)
+        move_click_cursor(filename_editbox_rectangle, number=2)
         time.sleep(1)
         keyboard.typewrite(filename)
         time.sleep(.5)
         move_click_cursor(SaveButton)
 
-
 office = Office()
 
 if __name__ == '__main__':
+
     office.close_save_office()
