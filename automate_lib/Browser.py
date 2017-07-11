@@ -202,7 +202,7 @@ class Browse():
         for index, item in enumerate(items):
             print(index, item)
             if index % 2 == 0:
-                scroll_mouse(3)
+                scroll_mouse(count=2, sensivity=-200)
             move_cursor_browser(self.browser_x + item.location['x'], self.browser_y + item.location['y'])
             time.sleep(1)
 
