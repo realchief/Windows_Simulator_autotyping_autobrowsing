@@ -7,7 +7,6 @@ from pywinauto import handleprops, findwindows
 import pywinauto
 import time
 
-
 screenWidth, screenHeight = pyautogui.size()
 print('Width: {}, Height: {}'.format(screenWidth, screenHeight))
 
@@ -84,11 +83,10 @@ def move_click_cursor(rectangle, number=1):
     if coor_x == 0 and coor_y == 0:
         return
 
-    for i in range(number):
-        action_time = random.uniform(0.1, 0.7)
-        pyautogui.moveTo(coor_x, coor_y, action_time)
-        time.sleep(1)
-        pyautogui.click(button='left')
+    action_time = random.uniform(0.1, 0.7)
+    pyautogui.moveTo(coor_x, coor_y, action_time)
+    time.sleep(1)
+    pyautogui.click(button='left', clicks=number)
 
 
 def move_click_browser(coor_x, coor_y):
@@ -122,7 +120,7 @@ def click_mouse(type, coor_x=None, coor_y=None):
         pyautogui.click(x=coor_x, y=coor_y, button=type)
 
 
-def scroll_mouse(count, sensivity=50, pause=None):
+def scroll_mouse(count, sensivity=200, pause=None):
     """
     if coor_x and coor_y is None, then scroll current position of cursor.
     :param amount_to_scroll: 
@@ -133,7 +131,9 @@ def scroll_mouse(count, sensivity=50, pause=None):
     for i in range(count):
         try:
             # time.sleep(random.uniform(stop_timea, stop_timeb))
-            pyautogui.scroll(sensivity)
+            print("scrolling")
+            pyautogui.scroll(sensivity, pause=0.5)
+            # time.sleep(1)
 
         except Exception as e:
             print("Scroll mouse Error: {}".format(e))
@@ -248,3 +248,5 @@ def sys_info():
     print("Python : {} bit".format(pywinauto.sysinfo.python_bitness()))
 
 
+if __name__ == '__main__':
+    scroll_mouse(count=1)
