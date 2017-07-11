@@ -200,11 +200,13 @@ class Browse():
         items = self.driver.find_elements_by_xpath("//div[@id='rso']//div[@class='g']")
 
         for index, item in enumerate(items):
+            print(index, item)
             if index % 2 == 0:
                 scroll_mouse(3)
             move_cursor_browser(self.browser_x + item.location['x'], self.browser_y + item.location['y'])
             time.sleep(1)
 
+browser = Browse()
 
 if __name__ == '__main__':
     browser = Browse()
