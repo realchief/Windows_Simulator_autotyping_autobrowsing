@@ -4,10 +4,15 @@ from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
+import os
 
 
 class Browse():
+
     def __init__(self):
+        pass
+
+    def start(self):
         time.sleep(3)
 
         self.driver = webdriver.Ie("IEDriverServer.exe")
@@ -203,6 +208,7 @@ class Browse():
 
 if __name__ == '__main__':
     browser = Browse()
+    browser.start()
     browser.google_entry()
     # browser.login()
     # browser.logout()

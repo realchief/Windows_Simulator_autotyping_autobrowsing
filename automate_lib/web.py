@@ -52,5 +52,7 @@ def scrapy_content_newsurl():
 
 
 if __name__ == '__main__':
+
     content = scrapy_content_newsurl()
+
     print ('content: {}'.format(content))

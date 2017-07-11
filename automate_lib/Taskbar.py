@@ -105,24 +105,26 @@ taskbar = Taskbar()
 
 
 class Office():
-
     def __init__(self):
-        # taskbar.start_menu()
-        # time.sleep(3)
-        #
-        # keyboard.typewrite('wordpad')
-        # time.sleep(1)
-        #
-        # keyboard.hotkey('enter')
-        # time.sleep(3)
+        print("Starting Office")
 
-        # print(dumpwindow(handle=search_window()))
-        # for child in dumpwindow(handle=search_window())['children']:
-        #     print(dumpwindow(handle=child))
-        #     move_cursor(dumpwindow(handle=child)['rectangle'])
+    def start(self):
+        taskbar.start_menu()
+        time.sleep(3)
+
+        keyboard.typewrite('wordpad')
+        time.sleep(1)
+
+        keyboard.hotkey('enter')
+        time.sleep(3)
+
+        print(dumpwindow(handle=search_window()))
+        for child in dumpwindow(handle=search_window())['children']:
+            print(dumpwindow(handle=child))
+            move_cursor(dumpwindow(handle=child)['rectangle'])
 
         time.sleep(3)
-        # keyboard.hotkey('enter')
+        keyboard.hotkey('enter')
 
     def write_letters(self):
         """

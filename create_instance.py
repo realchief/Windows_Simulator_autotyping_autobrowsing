@@ -132,4 +132,4 @@ if __name__ == '__main__':
     # instance.create_key()
     # instance.create_multi_instances()
     # instance.decrypt_ec2_secure_info()
-    # instance.terminate_multi_instances()
+    instance.terminate_multi_instances()

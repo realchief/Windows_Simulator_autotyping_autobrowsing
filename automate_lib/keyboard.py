@@ -6,7 +6,7 @@ from const import *
 
 stop_intervala = 0.009
 stop_intervalb = 0.3
-
+pyautogui.FAILSAFE = False
 
 keys = {
     'digits': ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'],
@@ -40,23 +40,26 @@ class Keyboard():
         words_list = str(txt).replace('\n\n', '\n').split(' ')
 
         for word in words_list:
-            interval = random.uniform(stop_intervala, stop_intervalb)
-            pyautogui.typewrite(word, interval=interval)
-            back_count = 0
+            try:
+                interval = random.uniform(stop_intervala, stop_intervalb)
+                pyautogui.typewrite(word, interval=interval)
+                back_count = 0
 
-            if all(char.isalpha() for char in word):
-                back_count = self.get_backspace_count(len(word))
+                if all(char.isalpha() for char in word):
+                    back_count = self.get_backspace_count(len(word))
 
-            if back_count != 0:
-                print('length: {}'.format(len(word)))
-                print('back_count: {}'.format(back_count))
-                print('word: {}'.format(word))
-                for i in range(back_count):
-                    self.hotkey('backspace')
+                if back_count != 0:
+                    print('length: {}'.format(len(word)))
+                    print('back_count: {}'.format(back_count))
+                    print('word: {}'.format(word))
+                    for i in range(back_count):
+                        self.hotkey('backspace')
 
-                pyautogui.typewrite(word[-back_count:], interval=interval)
+                    pyautogui.typewrite(word[-back_count:], interval=interval)
 
-            pyautogui.typewrite(' ', interval=interval)
+                pyautogui.typewrite(' ', interval=interval)
+            except Exception as e:
+                print('Exception For Typewriter: {}'.format(e))
         time.sleep(.2)
 
     def typemail(self, word):
