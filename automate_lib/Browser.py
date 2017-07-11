@@ -10,7 +10,9 @@ import os
 class Browse():
 
     def __init__(self):
-        pass
+        self.RANDOM_BROWSE_COUNT = 0
+        self.browser_x = 0
+        self.browser_y = 0
 
     def start(self):
         time.sleep(3)
@@ -185,12 +187,18 @@ class Browse():
         move_click_browser(self.browser_x + button.location['x'], self.browser_y + button.location['y'])
 
     def google_entry(self):
-        self.browsing('https://google.com')
+        if self.RANDOM_BROWSE_COUNT == 0:
+            self.browsing('https://google.com')
+            time.sleep(3)
+        search_box = WebDriverWait(self.driver, 20).until(
+            EC.presence_of_element_located(
+                (By.NAME, "q")))
+
+        move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'], number=2)
+        time.sleep(.5)
+        move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'], number=2)
         time.sleep(3)
-        search_box = self.driver.find_element_by_name('q')
-        move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'])
-        time.sleep(3)
-        keyboard.typewrite('title')
+        keyboard.typewrite(random.choice(Random_Keyword))
         self.google_button()
         self.search_google()
 
@@ -198,13 +206,33 @@ class Browse():
         item_element = WebDriverWait(self.driver, 20).until(
             EC.presence_of_element_located((By.XPATH, "//div[@id='rso']")))
         items = self.driver.find_elements_by_xpath("//div[@id='rso']//div[@class='g']")
-
+        print('items: {}'.format(items))
         for index, item in enumerate(items):
             print(index, item)
+            if index == 5:
+                break
             if index % 2 == 0:
-                scroll_mouse(count=2, sensivity=-200)
+                scroll_mouse(count=1, sensivity=-150)
+            if index == 0:
+                first_element = (self.browser_x + item.location['x'], self.browser_y + item.location['y'])
             move_cursor_browser(self.browser_x + item.location['x'], self.browser_y + item.location['y'])
             time.sleep(1)
+
+        scroll_mouse(count=5, sensivity=200)
+        move_click_browser(first_element[0], first_element[1])
+        time.sleep(8)
+        scroll_mouse(count=3, sensivity=-150, pause=3)
+        time.sleep(3)
+        scroll_mouse(count=4, sensivity=200, pause=3)
+        # Count < 5
+        if self.RANDOM_BROWSE_COUNT <= 5:
+            self.random_browsing()
+
+    def random_browsing(self):
+        self.RANDOM_BROWSE_COUNT += 1
+        keyboard.backward()
+        self.google_entry()
+
 
 browser = Browse()
 

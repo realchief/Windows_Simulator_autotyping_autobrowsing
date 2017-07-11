@@ -145,5 +145,12 @@ class Keyboard():
         self.hotkey('ALT', 'TAB')
         time.sleep(.5)
 
+    def backward(self):
+        """
+        Backward on browser.
+        :return: 
+        """
+        self.hotkey('ALT', 'LEFT')
+        time.sleep(.5)
 
 keyboard = Keyboard()

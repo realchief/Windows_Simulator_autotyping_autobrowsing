@@ -13,3 +13,5 @@ EMAIL = {
 URL = {
     "E-mail": "https://mail.protonmail.com"
 }
+
+Random_Keyword = ["yahoo", "google", "test simulator"]

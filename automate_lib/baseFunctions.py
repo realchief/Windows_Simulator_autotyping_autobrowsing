@@ -89,7 +89,7 @@ def move_click_cursor(rectangle, number=1):
     pyautogui.click(button='left', clicks=number)
 
 
-def move_click_browser(coor_x, coor_y):
+def move_click_browser(coor_x, coor_y,  number =1):
     """
     Move mouse to given coordinate.
     :param coor_x: 
@@ -100,7 +100,7 @@ def move_click_browser(coor_x, coor_y):
     action_time = random.uniform(0.1, 0.7)
     pyautogui.moveTo(coor_x, coor_y, action_time)
     time.sleep(1)
-    pyautogui.click(button='left')
+    pyautogui.click(button='left', clicks=number)
 
 
 def click_mouse(type, coor_x=None, coor_y=None):
