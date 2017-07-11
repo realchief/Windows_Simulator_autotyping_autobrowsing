@@ -16,14 +16,20 @@ def senario_1():
     - Open browser and read inbox, compose email.
     :return: 
     """
-    office.start()
-    office.write_letters()
-    office.close_save_office()
-    browser.start()
-    browser.login()
-    browser.read_inbox()
-    browser.compose_mail()
-    browser.logout()
+    try:
+        office.start()
+        office.write_letters()
+        office.close_save_office()
+    except Exception as e:
+        print('Exception: {}'.format(e))
+    try:
+        browser.start()
+        browser.login()
+        browser.read_inbox()
+        browser.compose_mail()
+        browser.logout()
+    except Exception as e:
+        print(' Browser Exception: {}'.format(e))
 
 
 def senario_2():
@@ -31,16 +37,55 @@ def senario_2():
     Start browser first and login with username and password, read trash, inbox, and compose email
     :return: 
     """
-    browser.start()
-    browser.login()
-    browser.read_archive()
-    browser.read_trash()
-    browser.compose_mail()
-    browser.logout()
-    office.start()
-    office.write_letters()
-    office.close_save_office()
+    try:
+        browser.start()
+        browser.login()
+        browser.read_archive()
+        browser.read_trash()
+        browser.compose_mail()
+        browser.logout()
+        browser.google_entry()
+    except Exception as e:
+        print('Exception: {}'.format(e))
+
+    try:
+        office.start()
+        office.write_letters()
+        office.close_save_office()
+    except Exception as e:
+        print("Exception: {}".format(e))
+
+
+def senario_3():
+    """
+    simulate with only browser
+    :return: 
+    """
+    try:
+        browser.start()
+        browser.login()
+        browser.read_archive()
+        browser.read_trash()
+        browser.compose_mail()
+        browser.logout()
+        browser.google_entry()
+    except Exception as e:
+        print('Exception: {}'.format(e))
+
+
+def senario_4():
+    """
+    simulate with only office.
+    :return: 
+    """
+    try:
+        office.start()
+        office.write_letters()
+        office.close_save_office()
+    except Exception as e:
+        print("Exception: {}".format(e))
+
 
 if __name__ == '__main__':
-    senario_list = [senario_1, senario_2]
+    senario_list = [senario_1, senario_2, senario_3, senario_4]
     random.choice(senario_list)()
