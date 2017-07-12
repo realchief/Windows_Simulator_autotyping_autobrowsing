@@ -58,28 +58,28 @@ class Taskbar():
             # move_click_cursor(OK_Button_POS)
 
     def start_menu(self):
-        try:
-            move_click_cursor(self.shell_trayWnd.Rectangle())
-            children = dumpwindow(handle=search_window())['children']
-            print('children: {}'.format(children))
-
-            All_Programs_handle = None
-
-            # In Start Menu
-            for child in children:
-                print(dumpwindow(handle=child))
-                move_cursor(dumpwindow(handle=child)['rectangle'])
-                # if dumpwindow(handle=child)['text'] == "All Programs":
-                #     All_Programs_handle = child
-
-            # In "All programs", scroll action.
-            if All_Programs_handle is not None:
-                move_click_cursor(dumpwindow(handle=All_Programs_handle)['rectangle'])
-                scroll_mouse(10, 50)
-                scroll_mouse(10, -50)
-        except Exception as e:
-            logging.info("Taskbar start_menu function => Got Error: {}".format(e))
-            keyboard.hotkey('CTRL', 'ESC')
+        # try:
+        #     move_click_cursor(self.shell_trayWnd.Rectangle())
+        #     children = dumpwindow(handle=search_window())['children']
+        #     print('children: {}'.format(children))
+        #
+        #     All_Programs_handle = None
+        #
+        #     # In Start Menu
+        #     for child in children:
+        #         print(dumpwindow(handle=child))
+        #         move_cursor(dumpwindow(handle=child)['rectangle'])
+        #         # if dumpwindow(handle=child)['text'] == "All Programs":
+        #         #     All_Programs_handle = child
+        #
+        #     # In "All programs", scroll action.
+        #     if All_Programs_handle is not None:
+        #         move_click_cursor(dumpwindow(handle=All_Programs_handle)['rectangle'])
+        #         scroll_mouse(10, 50)
+        #         scroll_mouse(10, -50)
+        # except Exception as e:
+        #     logging.info("Taskbar start_menu function => Got Error: {}".format(e))
+        keyboard.hotkey('CTRL', 'ESC')
 
     def clock_time(self):
         """
@@ -127,13 +127,16 @@ class Office():
         time.sleep(3)
 
         print(dumpwindow(handle=search_window()))
-        for child in dumpwindow(handle=search_window())['children']:
+        for index,  child in enumerate(dumpwindow(handle=search_window())['children']):
             print(dumpwindow(handle=child))
             logging.info("Office start function => Information: {}".format(dumpwindow(handle=child)))
             move_cursor(dumpwindow(handle=child)['rectangle'])
+            time.sleep(1)
+            if index > 5:
+                break
 
         time.sleep(3)
-        keyboard.hotkey('enter')
+        # keyboard.hotkey('enter')
 
     def write_letters(self):
         """
