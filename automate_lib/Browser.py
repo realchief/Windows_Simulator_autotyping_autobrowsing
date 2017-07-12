@@ -327,16 +327,38 @@ class Browse():
         keyboard.backward()
         self.google_entry()
 
+    def popular_sites(self, repeat=10):
+        """
+        Visit popular sites
+        :return: 
+        """
+        urls = parse_csv()
+
+        for i in range(repeat):
+            try:
+                self.browsing(random.choice(urls))
+                time.sleep(5)
+                body_element = WebDriverWait(self.driver, 20).until(
+                    EC.presence_of_element_located((By.TAG_NAME, "body")))
+
+                move_cursor_browser(self.browser_x + body_element.location['x'] + 300,
+                                    self.browser_y + body_element.location['y'] + 50)
+                time.sleep(3)
+                scroll_mouse(5, sensivity=random.choice([-200, -300]))
+                time.sleep(2)
+                scroll_mouse(4, sensivity=random.choice([180, 200, 250]))
+                time.sleep(2)
+            except Exception as e:
+                print('Browser popular sites Function => Got Error: {}'.format(e))
+                continue
 
 browser = Browse()
 
 if __name__ == '__main__':
-    # browser = Browse()
-    # browser.start()
+    browser = Browse()
+    browser.start()
+    browser.popular_sites()
     # browser.google_entry()
     # browser.login()
     # browser.logout()
     # browser.compose_mail()
-    # print(os.path.abspath("IEDriverServer.exe"))
-    sent_mail = [item for item in EMAIL.keys() if item != "test_automate@protonmail.com"]
-    print sent_mail
