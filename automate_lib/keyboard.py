@@ -3,6 +3,9 @@ import pyautogui
 import random
 import time
 from const import *
+import logging
+
+logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
 stop_intervala = 0.009
 stop_intervalb = 0.3
@@ -60,6 +63,7 @@ class Keyboard():
                 pyautogui.typewrite(' ', interval=interval)
             except Exception as e:
                 print('Exception For Typewriter: {}'.format(e))
+                logging.info('Exception For Typewriter: {}'.format(e))
         time.sleep(.2)
 
     def typemail(self, word):

@@ -85,13 +85,14 @@ class Instance():
             for item in reservation["Instances"]:
                 print('Instance {}'.format(item))
                 password_data = ec2_client.get_password_data(InstanceId=item["InstanceId"])
+                print('Password Data: {}'.format(password_data))
                 win_pwd = self.decrypt(password_data['PasswordData'].decode('base64'))
                 self.write_info(json.dumps({'id': item["InstanceId"],
                                             'type': item['InstanceType'],
                                             'winpwd': win_pwd,
                                             'public_ip': item['PublicIpAddress']}))
 
-    def create_multi_instances(self, Image_Id="ami-65f6d905", Instance_Type="t2.micro", MinCount=1,
+    def create_multi_instances(self, Image_Id="ami-b4614cd4", Instance_Type="t2.micro", MinCount=1,
                                MaxCount=1, Key_Name="Windowskey", SubnetId='subnet-6acf8d32', **kwargs):
         """
         Create multi instances with Testkey file.
@@ -131,5 +132,5 @@ if __name__ == '__main__':
     instance = Instance()
     # instance.create_key()
     # instance.create_multi_instances()
-    # instance.decrypt_ec2_secure_info()
-    instance.terminate_multi_instances()
+    instance.decrypt_ec2_secure_info()
+    # instance.terminate_multi_instances()

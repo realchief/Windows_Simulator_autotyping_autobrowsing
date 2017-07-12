@@ -6,10 +6,13 @@ from pywinauto.application import Application
 from pywinauto import handleprops, findwindows
 import pywinauto
 import time
+import logging
+
+logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
 screenWidth, screenHeight = pyautogui.size()
 print('Width: {}, Height: {}'.format(screenWidth, screenHeight))
-
+logging.info('Windows => Width: {}, Height: {}'.format(screenWidth, screenHeight))
 stop_timea = 0.1
 stop_timeb = 2
 app = Application()
@@ -131,12 +134,12 @@ def scroll_mouse(count, sensivity=200, pause=None):
     for i in range(count):
         try:
             # time.sleep(random.uniform(stop_timea, stop_timeb))
-            print("scrolling")
+            print("scrolling: {} times".format(i))
+            logging.info("scrolling: {} times\n".format(i))
             pyautogui.scroll(sensivity, pause=0.5)
-            # time.sleep(1)
 
         except Exception as e:
-            print("Scroll mouse Error: {}".format(e))
+            print("Scroll mouse Error: {}\n".format(e))
 
 
 def random_move_cursor(num=10):
@@ -163,7 +166,8 @@ def search_window():
     """
     try:
         found_window = findwindows.find_window(active_only=True, enabled_only=True, visible_only=True)
-        print('found_window: {}'.format(found_window))
+        print('found_window: {}\n'.format(found_window))
+        logging.info('found_window: {}\n'.format(found_window))
         return found_window
     except pywinauto.findwindows.ElementAmbiguousError:
         print('There was more then one element that matched')

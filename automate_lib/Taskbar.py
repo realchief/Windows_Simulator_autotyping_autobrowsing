@@ -3,6 +3,9 @@ from __future__ import print_function
 from baseFunctions import *
 from web import *
 from datetime import datetime
+import logging
+
+logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
 
 class Taskbar():
@@ -55,31 +58,35 @@ class Taskbar():
             # move_click_cursor(OK_Button_POS)
 
     def start_menu(self):
-        # move_click_cursor(self.shell_trayWnd.Rectangle())
-        # children = dumpwindow(handle=search_window())['children']
-        # print('children: {}'.format(children))
-        #
-        # All_Programs_handle = None
-        #
-        # # In Start Menu
-        # for child in children:
-        #     print(dumpwindow(handle=child))
-        #     move_cursor(dumpwindow(handle=child)['rectangle'])
-        #     if dumpwindow(handle=child)['text'] == "All Programs":
-        #         All_Programs_handle = child
-        #
-        # # In "All programs", scroll action.
-        # if All_Programs_handle is not None:
-        #     move_click_cursor(dumpwindow(handle=All_Programs_handle)['rectangle'])
-        #     scroll_mouse(10, 50)
-        #     scroll_mouse(10, -50)
-        keyboard.hotkey('CTRL', 'ESC')
+        try:
+            move_click_cursor(self.shell_trayWnd.Rectangle())
+            children = dumpwindow(handle=search_window())['children']
+            print('children: {}'.format(children))
+
+            All_Programs_handle = None
+
+            # In Start Menu
+            for child in children:
+                print(dumpwindow(handle=child))
+                move_cursor(dumpwindow(handle=child)['rectangle'])
+                # if dumpwindow(handle=child)['text'] == "All Programs":
+                #     All_Programs_handle = child
+
+            # In "All programs", scroll action.
+            if All_Programs_handle is not None:
+                move_click_cursor(dumpwindow(handle=All_Programs_handle)['rectangle'])
+                scroll_mouse(10, 50)
+                scroll_mouse(10, -50)
+        except Exception as e:
+            logging.info("Taskbar start_menu function => Got Error: {}".format(e))
+            keyboard.hotkey('CTRL', 'ESC')
 
     def clock_time(self):
         """
         start clock time on the taskbar.
         :return: 
         """
+
         print(self.shell_trayWnd)
         trayClock = self.shell_trayWnd[u'TrayClockWClass']
         move_click_cursor(trayClock.Rectangle())
@@ -107,6 +114,7 @@ taskbar = Taskbar()
 class Office():
     def __init__(self):
         print("Starting Office")
+        logging.info("Office init function => Starting Office Class....")
 
     def start(self):
         taskbar.start_menu()
@@ -121,6 +129,7 @@ class Office():
         print(dumpwindow(handle=search_window()))
         for child in dumpwindow(handle=search_window())['children']:
             print(dumpwindow(handle=child))
+            logging.info("Office start function => Information: {}".format(dumpwindow(handle=child)))
             move_cursor(dumpwindow(handle=child)['rectangle'])
 
         time.sleep(3)
@@ -132,6 +141,7 @@ class Office():
         :return: 
         """
         print('write letters')
+        logging.info("Office Write_letters function => write letters.\n")
         time.sleep(5)
         scrapy_content_newsurl()
         time.sleep(3)
