@@ -8,8 +8,8 @@ import logging
 
 logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
-stop_intervala = 0.009
-stop_intervalb = 0.3
+stop_intervala = 0.007
+stop_intervalb = 0.2
 pyautogui.FAILSAFE = False
 
 keys = {
@@ -65,7 +65,7 @@ class Keyboard():
                     print('word: {}'.format(word))
                     for i in range(back_count):
                         self.hotkey('backspace')
-
+                    time.sleep(1)
                     pyautogui.typewrite(word[-back_count:], interval=interval)
 
                 pyautogui.typewrite(' ', interval=interval)
