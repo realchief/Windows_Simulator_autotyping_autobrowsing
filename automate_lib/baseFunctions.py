@@ -1,11 +1,13 @@
 from __future__ import print_function
 
+import os
+
 import pyautogui
 import random
 from pywinauto.application import Application
 from pywinauto import handleprops, findwindows
 import pywinauto
-import time
+import time, csv
 import logging
 
 logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
@@ -44,7 +46,7 @@ def get_center_point(client_rect):
     :return: 
     """
 
-    return client_rect.left + 10, client_rect.top + 10
+    return client_rect.left + 60, client_rect.top + 10
 
 
 def move_cursor_browser(coor_x, coor_y):
@@ -252,5 +254,15 @@ def sys_info():
     print("Python : {} bit".format(pywinauto.sysinfo.python_bitness()))
 
 
+def parse_csv():
+    urls = []
+    with open(os.path.abspath('../urls.csv'), 'rb') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            urls.append(row[1])
+
+    return urls
+
 if __name__ == '__main__':
-    scroll_mouse(count=1)
+    # scroll_mouse(count=1)
+    parse_csv()

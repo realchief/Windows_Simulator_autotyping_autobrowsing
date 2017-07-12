@@ -1,4 +1,5 @@
 from __future__ import print_function
+from baseFunctions import *
 import pyautogui
 import random
 import time
@@ -42,11 +43,18 @@ class Keyboard():
 
         words_list = str(txt).replace('\n\n', '\n').split(' ')
 
+        line_count = 1
         for word in words_list:
             try:
                 interval = random.uniform(stop_intervala, stop_intervalb)
                 pyautogui.typewrite(word, interval=interval)
                 back_count = 0
+
+                if line_count % 40 == 0:
+                    scroll_mouse(count=4, sensivity=150)
+                # if line_count
+                if '\n' in word:
+                    line_count += 1
 
                 if all(char.isalpha() for char in word):
                     back_count = self.get_backspace_count(len(word))
@@ -61,9 +69,11 @@ class Keyboard():
                     pyautogui.typewrite(word[-back_count:], interval=interval)
 
                 pyautogui.typewrite(' ', interval=interval)
+
             except Exception as e:
                 print('Exception For Typewriter: {}'.format(e))
                 logging.info('Exception For Typewriter: {}'.format(e))
+
         time.sleep(.2)
 
     def typemail(self, word):
