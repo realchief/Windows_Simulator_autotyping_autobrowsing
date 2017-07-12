@@ -60,6 +60,8 @@ class Browse():
         try:
             self.driver.get(URL['E-mail'])
             WebDriverWait(self.driver, 10)
+            inbox_table = WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.ID, "username")))
             time.sleep(5)
 
             # Type username in form field.
@@ -90,6 +92,7 @@ class Browse():
         except Exception as e:
             print("Browser Login function => Got Error: {}".format(e))
             logging.info("Browser Login function => Got Error: {}\n".format(e))
+            self.close_borwser()
 
     def read_conversation_items(self):
 
