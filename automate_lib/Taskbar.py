@@ -130,10 +130,9 @@ class Office():
         for index,  child in enumerate(dumpwindow(handle=search_window())['children']):
             print(dumpwindow(handle=child))
             logging.info("Office start function => Information: {}".format(dumpwindow(handle=child)))
-            move_cursor(dumpwindow(handle=child)['rectangle'])
+            if index % 3 == 0:
+                move_cursor(dumpwindow(handle=child)['rectangle'])
             time.sleep(1)
-            if index > 5:
-                break
 
         time.sleep(3)
         # keyboard.hotkey('enter')
@@ -148,9 +147,9 @@ class Office():
         time.sleep(5)
         scrapy_content_newsurl()
         time.sleep(3)
-        scroll_mouse(4, sensivity=50)
+        scroll_mouse(4, sensivity=250)
         time.sleep(1)
-        scroll_mouse(9, sensivity=-20)
+        scroll_mouse(4, sensivity=-220)
 
     def close_save_office(self):
         """
@@ -189,5 +188,6 @@ class Office():
 office = Office()
 
 if __name__ == '__main__':
-
+    office.start()
+    office.write_letters()
     office.close_save_office()
