@@ -93,6 +93,6 @@ def senario_4():
 
 if __name__ == '__main__':
 
-    for item in range(random.choice([1, 2, 3, 4, 5])):
+    for item in range(random.choice([3, 4, 5])):
         senario_list = [senario_1, senario_2, senario_3, senario_4]
         random.choice(senario_list)()
