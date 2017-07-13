@@ -60,9 +60,9 @@ class Keyboard():
                     back_count = self.get_backspace_count(len(word))
 
                 if back_count != 0:
-                    print('length: {}'.format(len(word)))
-                    print('back_count: {}'.format(back_count))
-                    print('word: {}'.format(word))
+                    # print('length: {}'.format(len(word)))
+                    # print('back_count: {}'.format(back_count))
+                    # print('word: {}'.format(word))
                     for i in range(back_count):
                         self.hotkey('backspace')
                     time.sleep(1)
