@@ -247,6 +247,11 @@ class Office():
         self.change_bold(iteration=random.choice([1,2,3,4]))
         time.sleep(3)
 
+        move_click_browser(self.zoomin_x, self.zoomin_y, number=3)
+        time.sleep(2)
+        move_click_browser(self.zoomout_x, self.zoomout_y, number=2)
+        time.sleep(2)
+
 office = Office()
 
 if __name__ == '__main__':
