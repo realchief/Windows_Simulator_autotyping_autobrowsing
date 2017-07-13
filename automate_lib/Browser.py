@@ -32,7 +32,9 @@ class Browse():
                 if dumpwindow(handle=child)['classname'] == 'Frame Tab':
                     self.browser_x, self.browser_y = get_center_point(dumpwindow(handle=child)['rectangle'])
                     move_click_cursor(dumpwindow(handle=child)['rectangle'])
-                    break
+
+                elif dumpwindow(handle=child)['classname'] == 'ToolbarWindow32' and dumpwindow(handle=child)['text'] == '':
+                    self.backward_x, self.backward_y = get_center_point(dumpwindow(handle=child)['rectangle'])
 
             time.sleep(2)
         except Exception as e:
@@ -217,8 +219,9 @@ class Browse():
 
             sent_mail = [item for item in EMAIL.keys() if item != self.e_mail_name]
             keyboard.typemail(sent_mail[0])
-            time.sleep(1)
+            time.sleep(3)
 
+            keyboard.hotkey('TAB')
             title_form = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//form[@id='pm_composer']//input[@title='Subject']")))
             move_click_browser(self.browser_x + title_form.location['x'], self.browser_y + title_form.location['y'])
@@ -230,6 +233,7 @@ class Browse():
             move_click_browser(self.browser_x + iframe.location['x'], self.browser_y + iframe.location['y'])
             time.sleep(3)
             keyboard.typemail('test')
+            time.sleep(5)
 
             send_button = WebDriverWait(self.driver, 10).until(
                 EC.presence_of_element_located((By.XPATH, "//form[@id='pm_composer']//button[@data-message='message']")))
@@ -281,6 +285,8 @@ class Browse():
             time.sleep(.5)
             move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'], number=2)
             time.sleep(3)
+            keyboard.hotkey('CTRL', 'A')
+            time.sleep(2)
             keyboard.typewrite(random.choice(Random_Keyword))
             self.google_button()
             self.search_google()
@@ -324,7 +330,10 @@ class Browse():
         :return: 
         """
         self.RANDOM_BROWSE_COUNT += 1
-        keyboard.backward()
+        # keyboard.backward()
+        time.sleep(1)
+        move_click_browser(self.backward_x, self.backward_y)
+        time.sleep(1)
         self.google_entry()
 
     def popular_sites(self, repeat=10):
@@ -357,8 +366,12 @@ browser = Browse()
 if __name__ == '__main__':
     browser = Browse()
     browser.start()
+    browser.login()
+    browser.read_inbox()
+    browser.read_drafts()
+    browser.read_sent()
+    browser.compose_mail()
+    browser.logout()
+    browser.google_entry()
     browser.popular_sites()
-    # browser.google_entry()
-    # browser.login()
-    # browser.logout()
-    # browser.compose_mail()
+

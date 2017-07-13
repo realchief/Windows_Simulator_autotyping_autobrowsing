@@ -188,6 +188,7 @@ class Office():
 office = Office()
 
 if __name__ == '__main__':
-    office.start()
-    office.write_letters()
+    time.sleep(3)
+    # office.start()
+    # office.write_letters()
     office.close_save_office()

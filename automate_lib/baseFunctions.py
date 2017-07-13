@@ -46,7 +46,7 @@ def get_center_point(client_rect):
     :return: 
     """
 
-    return client_rect.left + 60, client_rect.top + 10
+    return client_rect.left + 5, client_rect.top + 5
 
 
 def move_cursor_browser(coor_x, coor_y):
@@ -94,7 +94,7 @@ def move_click_cursor(rectangle, number=1):
     pyautogui.click(button='left', clicks=number)
 
 
-def move_click_browser(coor_x, coor_y,  number =1):
+def move_click_browser(coor_x, coor_y,  number=1):
     """
     Move mouse to given coordinate.
     :param coor_x: 
