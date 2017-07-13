@@ -26,6 +26,7 @@ def senario_1():
         browser.start()
         browser.login()
         browser.read_inbox()
+        browser.read_sent()
         browser.compose_mail()
         browser.logout()
     except Exception as e:
@@ -40,6 +41,8 @@ def senario_2():
     try:
         browser.start()
         browser.login()
+        browser.read_inbox()
+        browser.read_sent()
         browser.read_archive()
         browser.read_trash()
         browser.compose_mail()
@@ -64,6 +67,8 @@ def senario_3():
     try:
         browser.start()
         browser.login()
+        browser.read_inbox()
+        browser.read_sent()
         browser.read_archive()
         browser.read_trash()
         browser.compose_mail()
