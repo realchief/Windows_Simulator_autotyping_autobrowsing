@@ -50,8 +50,10 @@ class Keyboard():
                 pyautogui.typewrite(word, interval=interval)
                 back_count = 0
 
-                if line_count % 10 == 0:
-                    scroll_mouse(count=4, sensivity=150)
+                if line_count % 11 == 0:
+                    scroll_mouse(count=2, sensivity=200)
+                    scroll_mouse(count=2, sensivity=-200)
+
                 # if line_count
                 if '\n' in word:
                     line_count += 1

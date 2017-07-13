@@ -257,6 +257,5 @@ office = Office()
 if __name__ == '__main__':
     time.sleep(3)
     office.start()
-    # office.write_letters()
-    # office.write_letters()
-    # office.close_save_office()
+    office.write_letters()
+    office.close_save_office()

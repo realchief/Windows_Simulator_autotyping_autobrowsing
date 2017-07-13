@@ -18,7 +18,10 @@ class Browse():
 
     def start(self):
         time.sleep(3)
-        self.driver = webdriver.Ie(os.path.abspath("IEDriverServer.exe"))
+        try:
+            self.driver = webdriver.Ie(os.path.abspath("IEDriverServer.exe"))
+        except Exception as e:
+            self.driver = webdriver.Ie("C:/workspace_1/automate_lib/IEDriverServer.exe")
 
         time.sleep(2)
         keyboard.maximize()
