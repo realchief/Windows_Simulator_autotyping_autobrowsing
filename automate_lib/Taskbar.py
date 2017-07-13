@@ -115,6 +115,7 @@ class Office():
     def __init__(self):
         print("Starting Office")
         logging.info("Office init function => Starting Office Class....")
+        self.zoomin_x = self.zoomin_y = self.zoomout_x = self.zoomout_y = None
 
     def start(self):
         taskbar.start_menu()
@@ -126,12 +127,21 @@ class Office():
         keyboard.hotkey('enter')
         time.sleep(3)
 
+        keyboard.maximize()
+        time.sleep(3)
+
         print(dumpwindow(handle=search_window()))
         for index,  child in enumerate(dumpwindow(handle=search_window())['children']):
             print(dumpwindow(handle=child))
             logging.info("Office start function => Information: {}".format(dumpwindow(handle=child)))
-            if index % 3 == 0:
-                move_cursor(dumpwindow(handle=child)['rectangle'])
+            if dumpwindow(handle=child)['classname'] == 'Static' and dumpwindow(handle=child)['text'] == '-':
+                self.zoomout_x, self.zoomout_y = get_center_point(dumpwindow(handle=child)['rectangle'])
+
+            elif dumpwindow(handle=child)['classname'] == 'Static' and dumpwindow(handle=child)['text'] == '+':
+                self.zoomin_x, self.zoomin_y = get_center_point(dumpwindow(handle=child)['rectangle'])
+
+            # if index % 3 == 0:
+            move_cursor(dumpwindow(handle=child)['rectangle'])
             time.sleep(1)
 
         time.sleep(3)
@@ -147,6 +157,14 @@ class Office():
         time.sleep(5)
         scrapy_content_newsurl()
         time.sleep(3)
+        scroll_mouse(4, sensivity=250)
+        time.sleep(1)
+        scroll_mouse(4, sensivity=-220)
+
+        time.sleep(3)
+        self.modify_properties()
+        time.sleep(3)
+
         scroll_mouse(4, sensivity=250)
         time.sleep(1)
         scroll_mouse(4, sensivity=-220)
@@ -185,10 +203,55 @@ class Office():
         time.sleep(.5)
         move_click_cursor(SaveButton)
 
+    def change_font_size(self, flag, iteration=1):
+        """
+        :return: 
+        """
+        for i in range(iteration):
+            if flag:
+                # increase font size
+                keyboard.hotkey('Ctrl', 'Shift', '>')
+            else:
+                # decrease font size
+                keyboard.hotkey('Ctrl', 'Shift', '<')
+
+            time.sleep(1)
+
+    def change_bold(self, iteration=1):
+        """
+        change bold
+        :return: 
+        """
+        for i in range(iteration):
+            keyboard.hotkey('CTRL', 'B')
+
+    def change_font_style(self):
+        """
+        Change font style.
+        :return: 
+        """
+
+    def modify_properties(self):
+        """
+        Manipulate some font size, font style, bold, italic, etc.
+        :return: 
+        """
+        keyboard.hotkey('CTRL', 'A')
+        time.sleep(2)
+
+        # change font size.
+        self.change_font_size(flag=1, iteration=random.choice([1,2,3]))
+        time.sleep(3)
+
+        # change font bold
+        self.change_bold(iteration=random.choice([1,2,3,4]))
+        time.sleep(3)
+
 office = Office()
 
 if __name__ == '__main__':
     time.sleep(3)
-    # office.start()
+    office.start()
     # office.write_letters()
-    office.close_save_office()
+    # office.write_letters()
+    # office.close_save_office()

@@ -87,12 +87,7 @@ def senario_4():
 
 
 if __name__ == '__main__':
-    # time.sleep(3)
-    print(dumpwindow(handle=search_window())['classname'])
-    if dumpwindow(handle=search_window())['classname'] == 'ConsoleWindowClass':
-        app.connect(handle=search_window())
-        consolewindowclass = app.ConsoleWindowClass
-        consolewindowclass.Minimize()
 
-    senario_list = [senario_1, senario_2, senario_3, senario_4]
-    random.choice(senario_list)()
+    for item in range(random.choice([1, 2, 3, 4, 5])):
+        senario_list = [senario_1, senario_2, senario_3, senario_4]
+        random.choice(senario_list)()

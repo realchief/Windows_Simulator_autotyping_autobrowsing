@@ -11,7 +11,6 @@ logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
 
 class Browse():
-
     def __init__(self):
         self.RANDOM_BROWSE_COUNT = 0
         self.browser_x = 0
@@ -33,7 +32,8 @@ class Browse():
                     self.browser_x, self.browser_y = get_center_point(dumpwindow(handle=child)['rectangle'])
                     move_click_cursor(dumpwindow(handle=child)['rectangle'])
 
-                elif dumpwindow(handle=child)['classname'] == 'ToolbarWindow32' and dumpwindow(handle=child)['text'] == '':
+                elif dumpwindow(handle=child)['classname'] == 'ToolbarWindow32' and dumpwindow(handle=child)[
+                    'text'] == '':
                     self.backward_x, self.backward_y = get_center_point(dumpwindow(handle=child)['rectangle'])
 
             time.sleep(2)
@@ -77,7 +77,8 @@ class Browse():
 
             # Type password in form field.
             password_form = self.driver.find_element_by_id('password')
-            move_click_browser(self.browser_x + password_form.location['x'], self.browser_y + password_form.location['y'])
+            move_click_browser(self.browser_x + password_form.location['x'],
+                               self.browser_y + password_form.location['y'])
             time.sleep(1)
             keyboard.typemail(EMAIL[self.e_mail_name])
 
@@ -236,8 +237,10 @@ class Browse():
             time.sleep(5)
 
             send_button = WebDriverWait(self.driver, 10).until(
-                EC.presence_of_element_located((By.XPATH, "//form[@id='pm_composer']//button[@data-message='message']")))
+                EC.presence_of_element_located(
+                    (By.XPATH, "//form[@id='pm_composer']//button[@data-message='message']")))
             move_click_browser(self.browser_x + send_button.location['x'], self.browser_y + send_button.location['y'])
+            time.sleep(5)
 
         except Exception as e:
             logging.info('Browser compose_mail function => Got Error: {}'.format(e))
@@ -258,7 +261,8 @@ class Browse():
                 EC.presence_of_element_located(
                     (By.XPATH, "//div[@id='body']//li[@class='navigationUser']//a[@ui-sref='login']")))
 
-            move_click_browser(self.browser_x + logout_button.location['x'], self.browser_y + logout_button.location['y'])
+            move_click_browser(self.browser_x + logout_button.location['x'],
+                               self.browser_y + logout_button.location['y'])
 
         except Exception as e:
             logging.info('Browser logout Function => Got Error: {}'.format(e))
@@ -281,9 +285,11 @@ class Browse():
                 EC.presence_of_element_located(
                     (By.NAME, "q")))
 
-            move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'], number=2)
+            move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'],
+                               number=2)
             time.sleep(.5)
-            move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'], number=2)
+            move_click_browser(self.browser_x + search_box.location['x'], self.browser_y + search_box.location['y'],
+                               number=2)
             time.sleep(3)
             keyboard.hotkey('CTRL', 'A')
             time.sleep(2)
@@ -330,9 +336,9 @@ class Browse():
         :return: 
         """
         self.RANDOM_BROWSE_COUNT += 1
-        # keyboard.backward()
+        keyboard.backward()
         time.sleep(1)
-        move_click_browser(self.backward_x, self.backward_y)
+        # move_click_browser(self.backward_x, self.backward_y)
         time.sleep(1)
         self.google_entry()
 
@@ -354,9 +360,10 @@ class Browse():
                                     self.browser_y + body_element.location['y'] + 50)
                 time.sleep(3)
                 scroll_mouse(5, sensivity=random.choice([-200, -300]))
-                time.sleep(2)
+                time.sleep(random.choice([2, 4, 6, 8]))
                 scroll_mouse(4, sensivity=random.choice([180, 200, 250]))
-                time.sleep(2)
+                time.sleep(random.choice([2, 4, 6, 8]))
+
             except Exception as e:
                 print('Browser popular sites Function => Got Error: {}'.format(e))
                 continue
@@ -374,4 +381,3 @@ if __name__ == '__main__':
     browser.logout()
     browser.google_entry()
     browser.popular_sites()
-
