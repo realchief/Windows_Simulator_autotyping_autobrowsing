@@ -125,7 +125,7 @@ def click_mouse(type, coor_x=None, coor_y=None):
         pyautogui.click(x=coor_x, y=coor_y, button=type)
 
 
-def scroll_mouse(count, sensivity=200, pause=None):
+def scroll_mouse(count=1, sensivity=200, pause=None):
     """
     if coor_x and coor_y is None, then scroll current position of cursor.
     :param amount_to_scroll: 
@@ -139,7 +139,7 @@ def scroll_mouse(count, sensivity=200, pause=None):
             print("scrolling: {} times".format(i))
             logging.info("scrolling: {} times\n".format(i))
             pyautogui.scroll(sensivity, pause=0.5)
-
+            time.sleep(.5)
         except Exception as e:
             print("Scroll mouse Error: {}\n".format(e))
 

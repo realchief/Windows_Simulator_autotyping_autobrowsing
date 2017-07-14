@@ -24,11 +24,13 @@ def senario_1():
         print('Exception: {}'.format(e))
     try:
         browser.start()
+        browser.popular_sites()
         browser.login()
         browser.read_inbox()
         browser.read_sent()
         browser.compose_mail()
         browser.logout()
+
     except Exception as e:
         print(' Browser Exception: {}'.format(e))
 
@@ -48,6 +50,7 @@ def senario_2():
         browser.compose_mail()
         browser.logout()
         browser.google_entry()
+        browser.popular_sites()
     except Exception as e:
         print('Exception: {}'.format(e))
 
@@ -67,13 +70,14 @@ def senario_3():
     try:
         browser.start()
         browser.login()
+        browser.google_entry()
         browser.read_inbox()
         browser.read_sent()
         browser.read_archive()
         browser.read_trash()
         browser.compose_mail()
         browser.logout()
-        browser.google_entry()
+        browser.popular_sites()
     except Exception as e:
         print('Exception: {}'.format(e))
 
