@@ -103,14 +103,21 @@ class Browse():
     def read_conversation_items(self):
 
         try:
-            inbox_table = WebDriverWait(self.driver, 10).until(
+            inbox_table = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.XPATH, "//div[@id='conversation-list-columns']")))
 
+            print('inbox_table: {}'.format(inbox_table))
+            time.sleep(3)
             inbox_lists = inbox_table.find_elements_by_class_name('conversation-meta')
+            print('inbox lists: {}'.format(inbox_lists))
+            print('==================================\n')
             for inbox_item in inbox_lists:
+
+                print('inbox items: {}'.format(inbox_item))
+
                 move_click_browser(self.browser_x + inbox_item.location['x'], self.browser_y + inbox_item.location['y'])
                 time.sleep(3)
-
+            print('==================================\n')
         except Exception as e:
             print("Browser read_conversation_items => Got Error: {}".format(e))
             logging.info("Browser read_conversation_items => Got Error: {}\n".format(e))
@@ -380,7 +387,7 @@ if __name__ == '__main__':
     browser.read_inbox()
     browser.read_drafts()
     browser.read_sent()
-    browser.compose_mail()
-    browser.logout()
-    browser.google_entry()
-    browser.popular_sites()
+    # browser.compose_mail()
+    # browser.logout()
+    # browser.google_entry()
+    # browser.popular_sites()
