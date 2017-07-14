@@ -30,6 +30,9 @@ ec2_client = boto3.client('ec2',
 Instances = []
 
 
+Instance_Type = ['t2.nano', 't2.micro', 't2.small', 't2.medium', 't2.large', 't2.xlarge', 't2.2xlarge']
+
+
 class Instance():
 
     def __init__(self):
@@ -103,7 +106,7 @@ class Instance():
 
         self.write_info(json_data)
 
-    def create_multi_instances(self, Image_Id="ami-ac042acc", Instance_Type="t2.micro", MinCount=1,
+    def create_multi_instances(self, Image_Id="ami-a8eac4c8", Instance_Type="t2.micro", MinCount=1,
                                MaxCount=1, Key_Name="Windowskey", SubnetId='subnet-6acf8d32', **kwargs):
         """
         Create multi instances with Testkey file.
@@ -141,7 +144,7 @@ class Instance():
 
 if __name__ == '__main__':
     instance = Instance()
-    instance.create_key()
-    instance.create_multi_instances()
-    # instance.decrypt_ec2_secure_info()
+    # instance.create_key()
+    # instance.create_multi_instances(MaxCount=5)
+    instance.decrypt_ec2_secure_info()
     # instance.terminate_multi_instances()

@@ -256,11 +256,18 @@ def sys_info():
 
 def parse_csv():
     urls = []
-    with open(os.path.abspath('C:/workspace_1/automate_lib/urls.csv'), 'rb') as f:
-        reader = csv.reader(f)
-        for row in reader:
-            urls.append(row[1])
+    try:
+        with open(os.path.abspath('C:/workspace_1/automate_lib/urls.csv'), 'rb') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                urls.append(row[1])
+    except Exception as e:
+        print('parse_csv Function => Got Error: {}'.format(e))
 
+        with open(os.path.abspath('urls.csv'), 'rb') as f:
+            reader = csv.reader(f)
+            for row in reader:
+                urls.append(row[1])
     return urls
 
 if __name__ == '__main__':
