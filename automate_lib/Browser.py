@@ -348,7 +348,7 @@ class Browse():
         self.RANDOM_BROWSE_COUNT += 1
         keyboard.backward()
         time.sleep(1)
-        # move_click_browser(self.backward_x, self.backward_y)
+
         time.sleep(1)
         self.google_entry()
 
@@ -369,25 +369,49 @@ class Browse():
                 move_cursor_browser(self.browser_x + body_element.location['x'] + 300,
                                     self.browser_y + body_element.location['y'] + 50)
                 time.sleep(3)
-                scroll_mouse(5, sensivity=random.choice([-200, -300]))
-                time.sleep(random.choice([2, 4, 6, 8]))
-                scroll_mouse(4, sensivity=random.choice([180, 200, 250]))
-                time.sleep(random.choice([2, 4, 6, 8]))
+
+                # Get page scroll Height.
+                last_height = self.driver.execute_script("return document.body.scrollHeight")
+                # Get all <a> element on this page.
+                link_elements = self.driver.find_elements(By.TAG_NAME, "a")
+
+                # scroll the page down by screenHeight until reaching to last height.
+                for i in range(int(last_height/screenHeight)):
+                    self.browse_link_element(link_elements=link_elements)
+                    scroll_mouse(sensivity=-screenHeight)
+                    time.sleep(1.5)
+
+                # scroll the page up until page top.
+                scroll_mouse(int(last_height / screenHeight), sensivity=screenHeight)
+
+                # self.browse_link_element()
 
             except Exception as e:
                 print('Browser popular sites Function => Got Error: {}'.format(e))
                 continue
+
+    def browse_link_element(self, link_elements):
+
+        count = 0
+        for link_element in link_elements:
+            if link_element.is_displayed():
+                move_cursor_browser(self.browser_x + link_element.location['x'],
+                                    self.browser_y + link_element.location['y'])
+            else:
+                print('element not found in this page.')
+                continue
+            time.sleep(1)
 
 browser = Browse()
 
 if __name__ == '__main__':
     browser = Browse()
     browser.start()
-    browser.login()
-    browser.read_inbox()
-    browser.read_drafts()
-    browser.read_sent()
+    # browser.login()
+    # browser.read_inbox()
+    # browser.read_drafts()
+    # browser.read_sent()
     # browser.compose_mail()
     # browser.logout()
     # browser.google_entry()
-    # browser.popular_sites()
+    browser.popular_sites()
