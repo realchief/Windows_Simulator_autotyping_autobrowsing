@@ -390,7 +390,7 @@ class Browse():
 
             move_cursor_browser(self.browser_x + body_element.location['x'] + random.choice([300, 400, 500]),
                                 self.browser_y + body_element.location['y'] + random.choice([50, 100, 150, 200]))
-            time.sleep(2)
+            time.sleep(1)
 
             # Get page scroll Height.
             last_height = self.driver.execute_script("return document.body.scrollHeight")
@@ -438,7 +438,6 @@ class Browse():
                 else:
                     print('element not found in this page.')
                     continue
-                # time.sleep(1)
 
             random_element = random.choice(current_page_elements)
             move_click_browser(self.browser_x + random_element.location['x'],
