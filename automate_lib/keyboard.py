@@ -44,27 +44,30 @@ class Keyboard():
         words_list = str(txt).replace('\n\n', '\n').split(' ')
 
         line_count = 1
+        scroll_flag = False
         for word in words_list:
             try:
                 interval = random.uniform(stop_intervala, stop_intervalb)
                 pyautogui.typewrite(word, interval=interval)
                 back_count = 0
 
-                if line_count % 11 == 0:
-                    scroll_mouse(count=2, sensivity=200)
-                    scroll_mouse(count=2, sensivity=-200)
-
                 # if line_count
                 if '\n' in word:
                     line_count += 1
+                    scroll_flag = True
 
-                if all(char.isalpha() for char in word):
+                # if reaches to 11 lines, then scroll up and down twice.
+                if scroll_flag and line_count % 11 == 0:
+                    scroll_mouse(count=2, sensivity=200)
+                    time.sleep(3)
+                    scroll_mouse(count=2, sensivity=-200)
+                    scroll_flag = False
+
+                if all(char.isalpha() for char in word):   # if includes special character, pass it.
                     back_count = self.get_backspace_count(len(word))
 
-                if back_count != 0:
-                    # print('length: {}'.format(len(word)))
-                    # print('back_count: {}'.format(back_count))
-                    # print('word: {}'.format(word))
+                if back_count != 0:  # Backspace
+
                     for i in range(back_count):
                         self.hotkey('backspace')
                     time.sleep(1)
