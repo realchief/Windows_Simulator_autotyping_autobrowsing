@@ -9,7 +9,6 @@ logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
 
 class Taskbar():
-
     def __init__(self):
         app = Application().Connect(title=u'', class_name='Shell_TrayWnd')
         self.shell_trayWnd = app.Shell_TrayWnd
@@ -55,7 +54,7 @@ class Taskbar():
                 # click "NotifyArea"
                 pass
 
-            # move_click_cursor(OK_Button_POS)
+                # move_click_cursor(OK_Button_POS)
 
     def start_menu(self):
         # try:
@@ -131,7 +130,7 @@ class Office():
         time.sleep(3)
 
         print(dumpwindow(handle=search_window()))
-        for index,  child in enumerate(dumpwindow(handle=search_window())['children']):
+        for index, child in enumerate(dumpwindow(handle=search_window())['children']):
             print(dumpwindow(handle=child))
             logging.info("Office start function => Information: {}".format(dumpwindow(handle=child)))
             if dumpwindow(handle=child)['classname'] == 'Static' and dumpwindow(handle=child)['text'] == '-':
@@ -168,6 +167,9 @@ class Office():
         scroll_mouse(4, sensivity=250)
         time.sleep(1)
         scroll_mouse(4, sensivity=-220)
+        time.sleep(3)
+
+        self.modify_properties()
 
     def close_save_office(self):
         """
@@ -195,7 +197,7 @@ class Office():
                 SaveButton = dumpwindow(handle=child)['rectangle']
                 break
 
-        #  write the file name to save.
+        # write the file name to save.
         filename = 'test-' + str(datetime.now().strftime('%Y-%m-%d-%H-%M-%S'))
         move_click_cursor(filename_editbox_rectangle, number=2)
         time.sleep(1)
@@ -203,11 +205,12 @@ class Office():
         time.sleep(.5)
         move_click_cursor(SaveButton)
 
-    def change_font_size(self, flag, iteration=1):
+    def change_font_size(self, flag, iteration=2):
         """
         :return: 
         """
         for i in range(iteration):
+            print('change font size')
             if flag:
                 # increase font size
                 keyboard.hotkey('Ctrl', 'Shift', '>')
@@ -236,21 +239,26 @@ class Office():
         Manipulate some font size, font style, bold, italic, etc.
         :return: 
         """
-        keyboard.hotkey('CTRL', 'A')
+        keyboard.hotkey('ctrl', 'a')
         time.sleep(2)
 
+        scroll_mouse(count=3, sensivity=200)
+        time.sleep(3)
+        scroll_mouse(count=3, sensivity=-200)
+        time.sleep(3)
         # change font size.
-        self.change_font_size(flag=1, iteration=random.choice([1,2,3]))
+        self.change_font_size(flag=1, iteration=random.choice([1, 2, 3]))
         time.sleep(3)
 
         # change font bold
-        self.change_bold(iteration=random.choice([1,2,3,4]))
+        self.change_bold(iteration=random.choice([1, 2, 3, 4]))
         time.sleep(3)
 
-        move_click_browser(self.zoomin_x, self.zoomin_y, number=3)
-        time.sleep(2)
-        move_click_browser(self.zoomout_x, self.zoomout_y, number=2)
-        time.sleep(2)
+        # move_click_browser(self.zoomin_x, self.zoomin_y, number=3)
+        # time.sleep(2)
+        # move_click_browser(self.zoomout_x, self.zoomout_y, number=2)
+        # time.sleep(2)
+
 
 office = Office()
 
@@ -259,3 +267,4 @@ if __name__ == '__main__':
     office.start()
     office.write_letters()
     office.close_save_office()
+    # office.modify_properties()
