@@ -126,8 +126,8 @@ class Office():
         keyboard.hotkey('enter')
         time.sleep(3)
 
-        keyboard.maximize()
-        time.sleep(3)
+        # keyboard.maximize()
+        # time.sleep(3)
 
         print(dumpwindow(handle=search_window()))
         for index, child in enumerate(dumpwindow(handle=search_window())['children']):
@@ -169,8 +169,6 @@ class Office():
         scroll_mouse(4, sensivity=-220)
         time.sleep(3)
 
-        self.modify_properties()
-
     def close_save_office(self):
         """
         Save the office word
@@ -188,6 +186,7 @@ class Office():
                 move_click_cursor(dumpwindow(handle=child)['rectangle'])
                 time.sleep(1)
                 keyboard.keydown('down')
+                time.sleep(1)
                 keyboard.hotkey('enter')
 
             if dumpwindow(handle=child)['classname'] == 'Edit':
@@ -253,12 +252,6 @@ class Office():
         # change font bold
         self.change_bold(iteration=random.choice([1, 2, 3, 4]))
         time.sleep(3)
-
-        # move_click_browser(self.zoomin_x, self.zoomin_y, number=3)
-        # time.sleep(2)
-        # move_click_browser(self.zoomout_x, self.zoomout_y, number=2)
-        # time.sleep(2)
-
 
 office = Office()
 

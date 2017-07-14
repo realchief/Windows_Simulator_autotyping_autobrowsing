@@ -20,9 +20,7 @@ def senario_1():
         office.start()
         office.write_letters()
         office.close_save_office()
-    except Exception as e:
-        print('Exception: {}'.format(e))
-    try:
+        time.sleep(5)
         browser.start()
         browser.popular_sites()
         browser.login()
@@ -30,6 +28,7 @@ def senario_1():
         browser.read_sent()
         browser.compose_mail()
         browser.logout()
+        browser.close_borwser()
 
     except Exception as e:
         print(' Browser Exception: {}'.format(e))
@@ -51,10 +50,8 @@ def senario_2():
         browser.logout()
         browser.google_entry()
         browser.popular_sites()
-    except Exception as e:
-        print('Exception: {}'.format(e))
-
-    try:
+        browser.close_borwser()
+        time.sleep(5)
         office.start()
         office.write_letters()
         office.close_save_office()
@@ -78,6 +75,7 @@ def senario_3():
         browser.compose_mail()
         browser.logout()
         browser.popular_sites()
+        browser.close_borwser()
     except Exception as e:
         print('Exception: {}'.format(e))
 
@@ -97,6 +95,14 @@ def senario_4():
 
 if __name__ == '__main__':
 
+    senario_count = 0
     for item in range(random.choice([3, 4, 5])):
-        senario_list = [senario_1, senario_2, senario_3, senario_4]
-        random.choice(senario_list)()
+        # senario_list = [senario_1, senario_2, senario_3, senario_4]
+        # random.choice(senario_list)()
+        if senario_count == 0:
+            senario_2()
+        elif senario_count == 1:
+            senario_1()
+        else:
+            senario_4()
+        senario_count += 1

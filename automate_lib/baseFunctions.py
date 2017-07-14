@@ -256,7 +256,7 @@ def sys_info():
 
 def parse_csv():
     urls = []
-    with open(os.path.abspath('../urls.csv'), 'rb') as f:
+    with open(os.path.abspath('C:/workspace_1/automate_lib/urls.csv'), 'rb') as f:
         reader = csv.reader(f)
         for row in reader:
             urls.append(row[1])

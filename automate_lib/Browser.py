@@ -15,6 +15,7 @@ class Browse():
         self.RANDOM_BROWSE_COUNT = 0
         self.browser_x = 0
         self.browser_y = 0
+        self.limit_repeat = 0
 
     def start(self):
         time.sleep(3)
@@ -31,13 +32,22 @@ class Browse():
                 print("Browser Start function => Dumpwindow: {}\n".format(dumpwindow(handle=child)))
                 logging.info("Browser Start function => Dumpwindow: {}\n".format(dumpwindow(handle=child)))
 
+                # get browser address bar location.
                 if dumpwindow(handle=child)['classname'] == 'Frame Tab':
                     self.browser_x, self.browser_y = get_center_point(dumpwindow(handle=child)['rectangle'])
                     move_click_cursor(dumpwindow(handle=child)['rectangle'])
 
+                # get browser backward button location.
                 elif dumpwindow(handle=child)['classname'] == 'ToolbarWindow32' and dumpwindow(handle=child)[
                     'text'] == '':
                     self.backward_x, self.backward_y = get_center_point(dumpwindow(handle=child)['rectangle'])
+
+                # get browser main page height
+                elif dumpwindow(handle=child)['classname'] == 'Shell DocObject View':
+                    self.height = dumpwindow(handle=child)['rectangle'].bottom - dumpwindow(handle=child)[
+                        'rectangle'].top
+
+                    print('Height: {}'.format(self.height))
 
             time.sleep(2)
         except Exception as e:
@@ -112,7 +122,6 @@ class Browse():
             print('inbox lists: {}'.format(inbox_lists))
             print('==================================\n')
             for inbox_item in inbox_lists:
-
                 print('inbox items: {}'.format(inbox_item))
 
                 move_click_browser(self.browser_x + inbox_item.location['x'], self.browser_y + inbox_item.location['y'])
@@ -215,7 +224,6 @@ class Browse():
         except Exception as e:
             print('Browser read_trash function => Got Error: {}'.format(e))
             logging.info('Browser read_trash function => Got Error: {}'.format(e))
-            # self.close_borwser()
 
     def compose_mail(self):
         try:
@@ -254,7 +262,6 @@ class Browse():
 
         except Exception as e:
             logging.info('Browser compose_mail function => Got Error: {}'.format(e))
-            self.close_borwser()
 
     def close_borwser(self):
         self.driver.quit()
@@ -359,48 +366,90 @@ class Browse():
         """
         urls = parse_csv()
 
-        for i in range(repeat):
-            try:
-                self.browsing(random.choice(urls))
-                time.sleep(5)
-                body_element = WebDriverWait(self.driver, 20).until(
-                    EC.presence_of_element_located((By.TAG_NAME, "body")))
+        random_repeat = random.randint(3, repeat)
 
-                move_cursor_browser(self.browser_x + body_element.location['x'] + 300,
-                                    self.browser_y + body_element.location['y'] + 50)
-                time.sleep(3)
+        for i in range(random_repeat):
+            self.browsing(random.choice(urls))
+            time.sleep(5)
+            self.limit_repeat = 0
+            self.browse_populate_site()
 
-                # Get page scroll Height.
-                last_height = self.driver.execute_script("return document.body.scrollHeight")
-                # Get all <a> element on this page.
-                link_elements = self.driver.find_elements(By.TAG_NAME, "a")
+    def browse_populate_site(self):
+        """
+        Browsing populate sites
+        :return: 
+        """
+        try:
+            # return if repeat three times in one page.
+            if self.limit_repeat > 3:
+                return
 
-                # scroll the page down by screenHeight until reaching to last height.
-                for i in range(int(last_height/screenHeight)):
-                    self.browse_link_element(link_elements=link_elements)
-                    scroll_mouse(sensivity=-screenHeight)
-                    time.sleep(1.5)
+            # wait until body is loading.
+            body_element = WebDriverWait(self.driver, 20).until(
+                EC.presence_of_element_located((By.TAG_NAME, "body")))
 
-                # scroll the page up until page top.
-                scroll_mouse(int(last_height / screenHeight), sensivity=screenHeight)
+            move_cursor_browser(self.browser_x + body_element.location['x'] + random.choice([300, 400, 500]),
+                                self.browser_y + body_element.location['y'] + random.choice([50, 100, 150, 200]))
+            time.sleep(2)
 
-                # self.browse_link_element()
+            # Get page scroll Height.
+            last_height = self.driver.execute_script("return document.body.scrollHeight")
+            # Get all <a> element on this page.
+            link_elements = self.driver.find_elements(By.TAG_NAME, "a")
 
-            except Exception as e:
-                print('Browser popular sites Function => Got Error: {}'.format(e))
-                continue
+            if len(link_elements) < 5:
+                return
 
-    def browse_link_element(self, link_elements):
+            # scroll the page down by screenHeight until reaching to last height.
+            for i in range(int(last_height / self.height)):
+                scroll_mouse(sensivity=-self.height)
+                time.sleep(1.5)
 
-        count = 0
-        for link_element in link_elements:
-            if link_element.is_displayed():
-                move_cursor_browser(self.browser_x + link_element.location['x'],
-                                    self.browser_y + link_element.location['y'])
-            else:
-                print('element not found in this page.')
-                continue
-            time.sleep(1)
+            # scroll the page up until page top.
+            scroll_mouse(int(last_height / self.height), sensivity=self.height)
+
+            count = random.randint(0, int(last_height / self.height))
+
+            self.browse_link_element(link_elements=link_elements,
+                                     page_start=self.height * count,
+                                     page_end=self.height * (count + 1))
+
+        except Exception as e:
+            print('Browser popular sites Function => Got Error: {}'.format(e))
+            return
+
+    def browse_link_element(self, link_elements, page_start, page_end):
+        """
+        move mouse cursor to <a> element
+        :param link_elements: 
+        :param page_start: 
+        :param page_end: 
+        :return: 
+        """
+        try:
+            # scroll down/up until random scroll given above.
+            scroll_mouse(int(page_end / screenHeight), sensivity=self.height)
+
+            current_page_elements = []
+            for link_element in link_elements:
+                if link_element.location['y'] < page_end and link_element.location['y'] > page_start and link_element.is_displayed():
+                    current_page_elements.append(link_element)
+
+                else:
+                    print('element not found in this page.')
+                    continue
+                # time.sleep(1)
+
+            random_element = random.choice(current_page_elements)
+            move_click_browser(self.browser_x + random_element.location['x'],
+                                self.browser_y + random_element.location['y'] - page_start)
+            self.limit_repeat += 1
+            time.sleep(3)
+            self.browse_populate_site()
+        except Exception as e:
+            print('Browser browse_link_element function => Got Error: {}'.format(e))
+            logging.info('Browser browse_link_element function => Got Error: {}'.format(e))
+            return
 
 browser = Browse()
 
