@@ -433,12 +433,8 @@ class Browse():
 
             current_page_elements = []
             for link_element in link_elements:
-                if link_element.location['y'] < page_end and link_element.location['y'] > page_start and link_element.is_displayed():
+                if link_element.location['y'] <= page_end and link_element.location['y'] >= page_start and link_element.is_displayed():
                     current_page_elements.append(link_element)
-
-                else:
-                    print('element not found in this page.')
-                    continue
 
             if len(current_page_elements) == 0:
                 return
