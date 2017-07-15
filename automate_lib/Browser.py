@@ -440,6 +440,8 @@ class Browse():
                     print('element not found in this page.')
                     continue
 
+            if len(current_page_elements) == 0:
+                return
             random_element = random.choice(current_page_elements)
             move_click_browser(self.browser_x + random_element.location['x'],
                                 self.browser_y + random_element.location['y'] - page_start)
