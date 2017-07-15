@@ -442,7 +442,7 @@ class Browse():
             move_click_browser(self.browser_x + random_element.location['x'],
                                 self.browser_y + random_element.location['y'] - page_start)
             self.limit_repeat += 1
-            time.sleep(3)
+            time.sleep(.5)
             self.browse_populate_site()
         except Exception as e:
             print('Browser browse_link_element function => Got Error: {}'.format(e))
