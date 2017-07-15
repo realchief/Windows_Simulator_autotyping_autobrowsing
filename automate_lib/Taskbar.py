@@ -252,7 +252,7 @@ class Office():
         # change font bold
         self.change_bold(iteration=random.choice([1, 2, 3, 4]))
         time.sleep(3)
-
+c
 office = Office()
 
 if __name__ == '__main__':

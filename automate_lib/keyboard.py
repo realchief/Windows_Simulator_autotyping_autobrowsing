@@ -41,14 +41,15 @@ class Keyboard():
         """
         print('content: {}'.format(txt))
 
-        words_list = str(txt).replace('\n\n', '\n').split(' ')
+        words_list = str(txt).replace('\n\n|\n', '').split(' ')
 
         line_count = 1
         scroll_flag = False
+        paragraph_line = random.choice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        print('paragraph_line: {}'.format(paragraph_line))
+
         for word in words_list:
             try:
-                interval = random.uniform(stop_intervala, stop_intervalb)
-                pyautogui.typewrite(word, interval=interval)
                 back_count = 0
 
                 # if line_count
@@ -57,13 +58,16 @@ class Keyboard():
                     scroll_flag = True
 
                 # if reaches to 11 lines, then scroll up and down twice.
-                if scroll_flag and line_count % 11 == 0:
-                    scroll_mouse(count=2, sensivity=200)
-                    time.sleep(3)
-                    scroll_mouse(count=2, sensivity=-200)
+                if scroll_flag and line_count % paragraph_line == 0:
                     scroll_flag = False
 
-                if all(char.isalpha() for char in word):   # if includes special character, pass it.
+                else:
+                    word.replace("\n", " ")
+
+                interval = random.uniform(stop_intervala, stop_intervalb)
+                pyautogui.typewrite(word, interval=interval)
+
+                if all(char.isalpha() for char in word):  # if includes special character, pass it.
                     back_count = self.get_backspace_count(len(word))
 
                 if back_count != 0:  # Backspace
@@ -171,5 +175,6 @@ class Keyboard():
         """
         self.hotkey('ALT', 'LEFT')
         time.sleep(.5)
+
 
 keyboard = Keyboard()
