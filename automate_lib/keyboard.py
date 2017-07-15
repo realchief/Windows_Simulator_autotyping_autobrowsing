@@ -41,11 +41,11 @@ class Keyboard():
         """
         print('content: {}'.format(txt))
 
-        words_list = str(txt).replace('\n\n|\n', '').split(' ')
+        words_list = str(txt).replace('\n\n', '\n').split(' ')
 
         line_count = 1
         scroll_flag = False
-        paragraph_line = random.choice([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+        paragraph_line = random.choice([3, 4, 5, 6, 7, 8, 9, 10])
         print('paragraph_line: {}'.format(paragraph_line))
 
         for word in words_list:
