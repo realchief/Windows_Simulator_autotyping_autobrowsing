@@ -397,6 +397,7 @@ class Browse():
             # Get all <a> element on this page.
             link_elements = self.driver.find_elements(By.TAG_NAME, "a")
 
+            # if <a> element is less than 5, Return.
             if len(link_elements) < 5:
                 return
 

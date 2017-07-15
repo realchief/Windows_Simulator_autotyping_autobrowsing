@@ -226,12 +226,7 @@ class Office():
         """
         for i in range(iteration):
             keyboard.hotkey('CTRL', 'B')
-
-    def change_font_style(self):
-        """
-        Change font style.
-        :return: 
-        """
+            time.sleep(1)
 
     def modify_properties(self):
         """
@@ -242,21 +237,22 @@ class Office():
         time.sleep(2)
 
         scroll_mouse(count=3, sensivity=200)
-        time.sleep(3)
+        time.sleep(2)
         scroll_mouse(count=3, sensivity=-200)
-        time.sleep(3)
+        time.sleep(2)
         # change font size.
         self.change_font_size(flag=1, iteration=random.choice([1, 2, 3]))
-        time.sleep(3)
+        time.sleep(2)
 
         # change font bold
         self.change_bold(iteration=random.choice([1, 2, 3, 4]))
-        time.sleep(3)
-c
+        time.sleep(2)
+
 office = Office()
 
 if __name__ == '__main__':
     time.sleep(3)
+
     office.start()
     office.write_letters()
     office.close_save_office()
