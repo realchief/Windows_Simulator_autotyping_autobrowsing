@@ -6,6 +6,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import os
 import logging
+import threading
 
 logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
@@ -16,6 +17,7 @@ class Browse():
         self.browser_x = 0
         self.browser_y = 0
         self.limit_repeat = 0
+        self.current_page_elements = []
 
     def start(self):
         time.sleep(3)
@@ -401,7 +403,12 @@ class Browse():
             # if <a> element is less than 5, Return.
             if len(link_elements) < 5:
                 return
-
+            count = random.randint(0, int(last_height / self.height))
+            self.get_element_thread = threading.Thread(target=self.get_current_page_link_elements, args=(link_elements,
+                                                                                                         self.height * count,
+                                                                                                         self.height * (
+                                                                                                         count + 1)))
+            self.get_element_thread.start()
             # scroll the page down by screenHeight until reaching to last height.
             for i in range(int(last_height / self.height)):
                 scroll_mouse(sensivity=-self.height)
@@ -410,8 +417,6 @@ class Browse():
             # scroll the page up until page top.
             scroll_mouse(int(last_height / self.height), sensivity=self.height)
 
-            count = random.randint(0, int(last_height / self.height))
-            print('count: {}'.format(count))
             self.browse_link_element(link_elements=link_elements,
                                      page_start=self.height * count,
                                      page_end=self.height * (count + 1))
@@ -419,6 +424,15 @@ class Browse():
         except Exception as e:
             print('Browser popular sites Function => Got Error: {}'.format(e))
             return
+
+    def get_current_page_link_elements(self, link_elements, page_start, page_end):
+        """
+        Get current link elements in Thread.
+        :return: 
+        """
+        for link_element in link_elements:
+            if link_element.location['y'] <= page_end and link_element.location['y'] >= page_start and link_element.is_displayed():
+                self.current_page_elements.append(link_element)
 
     def browse_link_element(self, link_elements, page_start, page_end):
         """
@@ -431,16 +445,12 @@ class Browse():
         try:
             # scroll down/up until random scroll given above.
             scroll_mouse(int(page_end / self.height), sensivity=self.height)
+            self.get_element_thread.join()
 
-            current_page_elements = []
-            for link_element in link_elements:
-                if link_element.location['y'] <= page_end and link_element.location['y'] >= page_start and link_element.is_displayed():
-                    current_page_elements.append(link_element)
-
-            print('current page elements: {}'.format(current_page_elements))
-            if len(current_page_elements) == 0:
+            print('current page elements: {}'.format(self.current_page_elements))
+            if len(self.current_page_elements) == 0:
                 return
-            random_element = random.choice(current_page_elements)
+            random_element = random.choice(self.current_page_elements)
             move_click_browser(self.browser_x + random_element.location['x'],
                                self.browser_y + random_element.location['y'] - page_start)
             self.limit_repeat += 1
@@ -450,6 +460,7 @@ class Browse():
             print('Browser browse_link_element function => Got Error: {}'.format(e))
             logging.info('Browser browse_link_element function => Got Error: {}'.format(e))
             return
+
 
 browser = Browse()
 
