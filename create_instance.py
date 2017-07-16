@@ -106,7 +106,7 @@ class Instance():
 
         self.write_info(json_data)
 
-    def create_multi_instances(self, Image_Id="ami-46fbd526", Instance_Type="t2.micro", MinCount=1,
+    def create_multi_instances(self, Image_Id="ami-b3daf4d3", Instance_Type="t2.micro", MinCount=1,
                                MaxCount=1, Key_Name="Windowskey", SubnetId='subnet-6acf8d32', **kwargs):
         """
         Create multi instances with Testkey file.
