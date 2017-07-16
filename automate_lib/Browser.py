@@ -385,11 +385,10 @@ class Browse():
             # return if repeat three times in one page.
             if self.limit_repeat > 3:
                 return
-
+            time.sleep(3)
             # wait until body is loading.
             body_element = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.TAG_NAME, "body")))
-            time.sleep(2)
 
             move_cursor_browser(self.browser_x + body_element.location['x'] + random.choice([300, 400, 500]),
                                 self.browser_y + body_element.location['y'] + random.choice([50, 100, 150, 200]))
@@ -409,6 +408,7 @@ class Browse():
                                                                                                          self.height * (
                                                                                                          count + 1)))
             self.get_element_thread.start()
+
             # scroll the page down by screenHeight until reaching to last height.
             for i in range(int(last_height / self.height)):
                 scroll_mouse(sensivity=-self.height)
@@ -444,9 +444,10 @@ class Browse():
         """
         try:
             # scroll down/up until random scroll given above.
-            scroll_mouse(int(page_end / self.height), sensivity=self.height)
-            self.get_element_thread.join()
 
+            self.get_element_thread.join()
+            scroll_mouse(int(page_end / self.height), sensivity=self.height)
+            time.sleep(1)
             print('current page elements: {}'.format(self.current_page_elements))
             if len(self.current_page_elements) == 0:
                 return
