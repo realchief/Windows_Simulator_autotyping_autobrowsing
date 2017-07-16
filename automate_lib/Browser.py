@@ -387,6 +387,7 @@ class Browse():
             # wait until body is loading.
             body_element = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.TAG_NAME, "body")))
+            time.sleep(2)
 
             move_cursor_browser(self.browser_x + body_element.location['x'] + random.choice([300, 400, 500]),
                                 self.browser_y + body_element.location['y'] + random.choice([50, 100, 150, 200]))
@@ -410,7 +411,7 @@ class Browse():
             scroll_mouse(int(last_height / self.height), sensivity=self.height)
 
             count = random.randint(0, int(last_height / self.height))
-
+            print('count: {}'.format(count))
             self.browse_link_element(link_elements=link_elements,
                                      page_start=self.height * count,
                                      page_end=self.height * (count + 1))
@@ -429,18 +430,19 @@ class Browse():
         """
         try:
             # scroll down/up until random scroll given above.
-            scroll_mouse(int(page_end / screenHeight), sensivity=self.height)
+            scroll_mouse(int(page_end / self.height), sensivity=self.height)
 
             current_page_elements = []
             for link_element in link_elements:
                 if link_element.location['y'] <= page_end and link_element.location['y'] >= page_start and link_element.is_displayed():
                     current_page_elements.append(link_element)
 
+            print('current page elements: {}'.format(current_page_elements))
             if len(current_page_elements) == 0:
                 return
             random_element = random.choice(current_page_elements)
             move_click_browser(self.browser_x + random_element.location['x'],
-                                self.browser_y + random_element.location['y'] - page_start)
+                               self.browser_y + random_element.location['y'] - page_start)
             self.limit_repeat += 1
             time.sleep(.5)
             self.browse_populate_site()
@@ -456,7 +458,7 @@ if __name__ == '__main__':
     browser.start()
     # browser.login()
     # browser.read_inbox()
-    # browser.read_drafts()
+    # # browser.read_drafts()
     # browser.read_sent()
     # browser.compose_mail()
     # browser.logout()
