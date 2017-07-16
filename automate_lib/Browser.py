@@ -385,7 +385,7 @@ class Browse():
             # return if repeat three times in one page.
             if self.limit_repeat > 3:
                 return
-            time.sleep(3)
+            time.sleep(5)
             # wait until body is loading.
             body_element = WebDriverWait(self.driver, 20).until(
                 EC.presence_of_element_located((By.TAG_NAME, "body")))
@@ -402,7 +402,11 @@ class Browse():
             # if <a> element is less than 5, Return.
             if len(link_elements) < 5:
                 return
+
+            print(int(last_height / self.height))
             count = random.randint(0, int(last_height / self.height))
+            print('count: {}'.format(count))
+
             self.get_element_thread = threading.Thread(target=self.get_current_page_link_elements, args=(link_elements,
                                                                                                          self.height * count,
                                                                                                          self.height * (
@@ -424,6 +428,7 @@ class Browse():
         except Exception as e:
             print('Browser popular sites Function => Got Error: {}'.format(e))
             return
+
 
     def get_current_page_link_elements(self, link_elements, page_start, page_end):
         """
