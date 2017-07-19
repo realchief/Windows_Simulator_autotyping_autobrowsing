@@ -388,8 +388,7 @@ class Browse():
         random_repeat = random.randint(3, repeat)
 
         for i in range(random_repeat):
-            # self.browsing(random.choice(urls))
-            self.browsing('debian.org')
+            self.browsing(random.choice(urls))
             time.sleep(5)
             self.limit_repeat = 0
             self.browse_populate_site()
