@@ -48,7 +48,7 @@ def senario_2():
         browser.read_trash()
         browser.compose_mail()
         browser.logout()
-        browser.google_entry()
+        # browser.google_entry()
         browser.popular_sites()
         browser.close_borwser()
         time.sleep(5)
@@ -67,7 +67,7 @@ def senario_3():
     try:
         browser.start()
         browser.login()
-        browser.google_entry()
+        # browser.google_entry()
         browser.read_inbox()
         browser.read_sent()
         browser.read_archive()

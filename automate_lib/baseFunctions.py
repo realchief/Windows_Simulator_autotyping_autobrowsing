@@ -102,7 +102,7 @@ def move_click_browser(coor_x, coor_y,  number=1):
     :return: 
     """
 
-    action_time = random.uniform(0.1, 0.7)
+    action_time = random.uniform(0.5, 1)
     pyautogui.moveTo(coor_x, coor_y, action_time)
     time.sleep(1)
     pyautogui.click(button='left', clicks=number)
