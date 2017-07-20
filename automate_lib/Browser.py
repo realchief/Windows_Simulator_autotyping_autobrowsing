@@ -18,7 +18,7 @@ class Browse():
         self.browser_y = 0
         self.limit_repeat = 0
         self.current_page_elements = []
-        self.get_element_thread = []
+        self.Browser_threads = []
 
     def start(self):
         time.sleep(3)
@@ -29,9 +29,7 @@ class Browse():
 
         time.sleep(2)
         # keyboard.maximize()
-        time.sleep(2)
-        # self.offset_x, self.offset_y = get_center_point(dumpwindow(handle=search_window())['rectangle'])
-        # print('offset_x: {}, offset_y: {}'.format(self.offset_x, self.offset_y))
+        # time.sleep(2)
 
         try:
             for child in dumpwindow(handle=search_window())['children']:
@@ -374,9 +372,9 @@ class Browse():
         :param amount: 
         :return: 
         """
-        for i in range(0, int(page_start/self.height)):
-            self.driver.execute_script("window.scrollTo(0," + str(self.height) + ");")
-            time.sleep(.8)
+
+        self.driver.execute_script("window.scrollTo(0," + str(page_start) + ");")
+        time.sleep(.8)
 
     def popular_sites(self, repeat=10):
         """
@@ -404,20 +402,13 @@ class Browse():
             if self.limit_repeat > 3:
                 return
             time.sleep(5)
-
-            # wait until body is loading.
-            body_element = WebDriverWait(self.driver, 30).until(
-                EC.presence_of_element_located((By.TAG_NAME, "body")))
-
+            body_element = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
             move_cursor_browser(self.browser_x + body_element.location['x'] + random.choice([300, 400, 500]),
                                 self.browser_y + body_element.location['y'] + random.choice([50, 100, 150, 200]))
             time.sleep(1)
 
             # Get page scroll Height.
             last_height = self.driver.execute_script("return document.body.scrollHeight")
-            print('last height: {}'.format(last_height))
-
-            # Get all <a> element on this page.
             link_elements = self.driver.find_elements(By.TAG_NAME, "a")
 
             # if <a> element is less than 5, Return.
@@ -425,16 +416,16 @@ class Browse():
                 return
 
             pageScroll_count = int(last_height / self.height)
-            print('wholepage_scroll: {}'.format(pageScroll_count))
-
             count = random.randint(0, (pageScroll_count - 1))
-            print('count: {}'.format(count))
+            self.page_start = self.height * count
+            self.page_end = self.height * (count + 1)
 
-            # scroll the page down by screenHeight until reaching to last height.
+            print('page_start: {}, page_end: {}'.format(self.page_start, self.page_end))
+            print('link_elements Length: {}, link_elements: {}'.format(len(link_elements), link_elements))
+
             scroll_mouse(count=pageScroll_count, sensivity=-self.height, pause=1.5)
-
-            # scroll the page up until page top.
             scroll_mouse(count=pageScroll_count, sensivity=self.height, pause=0.5)
+            time.sleep(5)
 
             self.browse_link_element(link_elements=link_elements, count=count)
 
@@ -442,15 +433,14 @@ class Browse():
             print('Browser popular sites Function => Got Error: {}'.format(e))
             return
 
-    def get_current_page_link_elements(self, link_elements, page_start, page_end):
+    def get_current_page_link_elements(self, link_elements):
         """
         Get current link elements in Thread.
         :return: 
         """
 
-        print('link_elements Length: {}, link_elements: {}'.format(len(link_elements), link_elements))
         for link_element in link_elements:
-            if link_element.location['y'] < page_end and link_element.location['y'] > page_start and link_element.is_displayed():
+            if link_element.location['y'] < self.page_end and link_element.location['y'] > self.page_start and link_element.is_displayed():
                 self.current_page_elements.append(link_element)
 
     def browse_link_element(self, link_elements, count):
@@ -462,31 +452,30 @@ class Browse():
         :return: 
         """
         try:
-            # Wait until thread is exited.
-            page_start = self.height * count
-            page_end = self.height * (count + 1)
-
             # scroll down/up until random scroll given above.
             self.scroll_page(page_start=self.height * count)
-
             time.sleep(1)
 
-            self.get_current_page_link_elements(link_elements, page_start=page_start, page_end=page_end)
+            for i in range(0, len(self.Browser_threads)):
+                self.Browser_threads[i].join()
+
+            self.get_current_page_link_elements(link_elements)
 
             if len(self.current_page_elements) == 0:
+                print('no found elements')
                 return
-
+            print('3')
             random_element = random.choice(self.current_page_elements)
-
+            print('4')
             print('random element: {}, {}, {}'.format(random_element.location['x'],
                                                       random_element.location['y'],
                                                       random_element.text))
 
             move_click_browser(self.browser_x + random_element.location['x'],
-                               self.browser_y + random_element.location['y'] - page_start)
-
+                               self.browser_y + random_element.location['y'] - self.page_start)
+            print('5')
             self.limit_repeat += 1
-            time.sleep(.5)
+            time.sleep(5)
             self.browse_populate_site()
 
         except Exception as e:

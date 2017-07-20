@@ -114,7 +114,8 @@ class Office():
     def __init__(self):
         print("Starting Office")
         logging.info("Office init function => Starting Office Class....")
-        self.zoomin_x = self.zoomin_y = self.zoomout_x = self.zoomout_y = None
+        self.zoomin = self.zoomout = None
+        self.font_style = self.font_size = None
 
     def start(self):
         taskbar.start_menu()
@@ -124,35 +125,109 @@ class Office():
         time.sleep(1)
 
         keyboard.hotkey('enter')
-        time.sleep(3)
+        time.sleep(6)
 
         # keyboard.maximize()
         # time.sleep(3)
-
+        keyboard.hotkey('enter')
         print(dumpwindow(handle=search_window()))
         for index, child in enumerate(dumpwindow(handle=search_window())['children']):
-            print(dumpwindow(handle=child))
+            child_dump = dumpwindow(handle=child)
+            print(child_dump)
             logging.info("Office start function => Information: {}".format(dumpwindow(handle=child)))
-            if dumpwindow(handle=child)['classname'] == 'Static' and dumpwindow(handle=child)['text'] == '-':
-                self.zoomout_x, self.zoomout_y = get_center_point(dumpwindow(handle=child)['rectangle'])
 
-            elif dumpwindow(handle=child)['classname'] == 'Static' and dumpwindow(handle=child)['text'] == '+':
-                self.zoomin_x, self.zoomin_y = get_center_point(dumpwindow(handle=child)['rectangle'])
+            if child_dump['classname'] == 'Button' and child_dump['text'] == '-':
+                self.zoomout= child_dump['rectangle']
 
-            # if index % 3 == 0:
-            move_cursor(dumpwindow(handle=child)['rectangle'])
+            elif child_dump['classname'] == 'Button' and child_dump['text'] == '+':
+                self.zoomin = child_dump['rectangle']
+
+            elif child_dump['classname'] == 'UIRibbonCommandBarDock' and child_dump['text'] == "UIRibbonDockTop":
+                self.file_menu = child_dump['rectangle']
+
+                # for sub_child in child_dump['children']:
+                #     print('sub_child: {}'.format(dumpwindow(handle=sub_child)))
+            elif child_dump['classname'] == 'RICHEDIT50W' and str(child_dump['text']).isdigit():
+                print('self.font_size')
+                self.font_size = child_dump['rectangle']
+
+            elif child_dump['classname'] == 'RICHEDIT50W' and child_dump['text'] != '':
+                print('self.font_style')
+                self.font_style = child_dump['rectangle']
+
+            move_cursor(child_dump['rectangle'])
             time.sleep(1)
 
-        time.sleep(3)
-        # keyboard.hotkey('enter')
+    def change_font_size(self):
+        """
+        Change font size.
+        :return: 
+        """
+        try:
+            move_click_cursor(self.font_size)
+            time.sleep(3)
+            keyboard.hotkey('DOWN')
+            time.sleep(2)
+
+            for i in range(random.randint(3, 10)):
+                time.sleep(1)
+                keyboard.hotkey('DOWN')
+
+            keyboard.hotkey('ENTER')
+        except Exception as e:
+            print('Change_font_size function => Got Error: {}'.format(e))
+
+    def change_font_sytle(self):
+        """
+        Change font style
+        :return: 
+        """
+        try:
+            move_click_cursor(self.font_style)
+            time.sleep(3)
+            keyboard.hotkey('DOWN')
+            time.sleep(2)
+            keyboard.typewrite(str(random.randint(13, 25)))
+            time.sleep(1)
+            keyboard.hotkey('ENTER')
+        except Exception as e:
+            print('Change_font_style function => Got Error: {}'.format(e))
+
+    def change_zoomin(self):
+        """
+        Change Zoom in.
+        :return: 
+        """
+        for i in range(random.randint(1, 3)):
+            time.sleep(1)
+            move_click_cursor(self.zoomin)
+
+    def change_zoomout(self):
+        """
+        Change Zoom out.
+        :return: 
+        """
+        for i in range(random.randint(1, 3)):
+            time.sleep(1)
+            move_click_cursor(self.zoomout)
+
+    def change_bold(self, iteration=1):
+        """
+        change bold
+        :return: 
+        """
+        for i in range(iteration):
+            keyboard.hotkey('CTRL', 'B')
+            time.sleep(1)
 
     def write_letters(self):
         """
-        Randowm write the letters in wordpad.
+        Random write the letters in wordpad.
         :return: 
         """
         print('write letters')
         logging.info("Office Write_letters function => write letters.\n")
+        self.modify_properties()
         time.sleep(5)
         scrapy_content_newsurl()
         time.sleep(3)
@@ -160,8 +235,6 @@ class Office():
         time.sleep(1)
         scroll_mouse(4, sensivity=-220)
 
-        time.sleep(3)
-        self.modify_properties()
         time.sleep(3)
 
         scroll_mouse(4, sensivity=250)
@@ -204,49 +277,26 @@ class Office():
         time.sleep(.5)
         move_click_cursor(SaveButton)
 
-    def change_font_size(self, flag, iteration=2):
-        """
-        :return: 
-        """
-        for i in range(iteration):
-            print('change font size')
-            if flag:
-                # increase font size
-                keyboard.hotkey('Ctrl', 'Shift', '>')
-            else:
-                # decrease font size
-                keyboard.hotkey('Ctrl', 'Shift', '<')
-
-            time.sleep(1)
-
-    def change_bold(self, iteration=1):
-        """
-        change bold
-        :return: 
-        """
-        for i in range(iteration):
-            keyboard.hotkey('CTRL', 'B')
-            time.sleep(1)
-
     def modify_properties(self):
         """
         Manipulate some font size, font style, bold, italic, etc.
-        :return: 
+        :return:
         """
-        keyboard.hotkey('ctrl', 'a')
-        time.sleep(2)
 
-        scroll_mouse(count=3, sensivity=200)
-        time.sleep(2)
-        scroll_mouse(count=3, sensivity=-200)
-        time.sleep(2)
-        # change font size.
-        self.change_font_size(flag=1, iteration=random.choice([1, 2, 3]))
-        time.sleep(2)
+        modify_function_list = [self.change_zoomin(), self.change_zoomout()]
+        random.shuffle(modify_function_list)
+        print(modify_function_list)
 
-        # change font bold
-        self.change_bold(iteration=random.choice([1, 2, 3, 4]))
+        for i in range(0, len(modify_function_list)):
+            try:
+                modify_function_list[i]()
+            except Exception as e:
+                print('Exception: {}'.format(e))
+            time.sleep(1)
+
+        move_click_cursor(self.file_menu)
         time.sleep(2)
+        move_click_cursor(self.file_menu)
 
 office = Office()
 
@@ -256,4 +306,3 @@ if __name__ == '__main__':
     office.start()
     office.write_letters()
     office.close_save_office()
-    # office.modify_properties()

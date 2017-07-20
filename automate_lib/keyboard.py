@@ -100,7 +100,6 @@ class Keyboard():
         :param length: 
         :return:  
         """
-
         refine_count.append(random.randint(0, length))
         del_count = random.choice(refine_count)
         refine_count.pop(-1)
