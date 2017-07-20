@@ -226,7 +226,7 @@ class Office():
         print('write letters')
         logging.info("Office Write_letters function => write letters.\n")
         self.modify_properties()
-        time.sleep(5)
+        time.sleep(3)
         scrapy_content_newsurl()
         time.sleep(3)
         scroll_mouse(4, sensivity=250)
@@ -245,7 +245,6 @@ class Office():
         Save the office word
         :return: 
         """
-
         keyboard.close()
         time.sleep(2)
         keyboard.hotkey('enter')
@@ -280,7 +279,6 @@ class Office():
         Manipulate some font size, font style, bold, italic, etc.
         :return:
         """
-
         modify_function_list = [self.change_zoomin(), self.change_zoomout()]
         random.shuffle(modify_function_list)
         print(modify_function_list)
