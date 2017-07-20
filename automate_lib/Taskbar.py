@@ -125,10 +125,10 @@ class Office():
         time.sleep(1)
 
         keyboard.hotkey('enter')
-        time.sleep(6)
+        time.sleep(3)
 
-        # keyboard.maximize()
-        # time.sleep(3)
+        keyboard.maximize()
+        time.sleep(3)
         keyboard.hotkey('enter')
         print(dumpwindow(handle=search_window()))
         for index, child in enumerate(dumpwindow(handle=search_window())['children']):
@@ -145,8 +145,6 @@ class Office():
             elif child_dump['classname'] == 'UIRibbonCommandBarDock' and child_dump['text'] == "UIRibbonDockTop":
                 self.file_menu = child_dump['rectangle']
 
-                # for sub_child in child_dump['children']:
-                #     print('sub_child: {}'.format(dumpwindow(handle=sub_child)))
             elif child_dump['classname'] == 'RICHEDIT50W' and str(child_dump['text']).isdigit():
                 print('self.font_size')
                 self.font_size = child_dump['rectangle']
