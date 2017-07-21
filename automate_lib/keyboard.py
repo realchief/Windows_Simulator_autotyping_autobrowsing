@@ -51,18 +51,21 @@ class Keyboard():
         for word in words_list:
             try:
                 back_count = 0
-
                 # if line_count
                 if '\n' in word:
+                    print('word: {}'.format(word))
+                    print('exist n')
                     line_count += 1
                     scroll_flag = True
 
                 # if reaches to 11 lines, then scroll up and down twice.
                 if scroll_flag and line_count % paragraph_line == 0:
+                    print('next line')
                     scroll_flag = False
 
                 else:
-                    word.replace("\n", " ")
+                    print('remove {}'.format(line_count))
+                    word.replace("\n|\r\n", " ")
 
                 interval = random.uniform(stop_intervala, stop_intervalb)
                 pyautogui.typewrite(word, interval=interval)
@@ -71,7 +74,6 @@ class Keyboard():
                     back_count = self.get_backspace_count(len(word))
 
                 if back_count != 0:  # Backspace
-
                     for i in range(back_count):
                         self.hotkey('backspace')
                     time.sleep(1)

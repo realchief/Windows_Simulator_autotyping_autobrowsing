@@ -23,38 +23,41 @@ class Taskbar():
 
         # In pop up window of NotifyArea.
         for child in children:
-            if dumpwindow(handle=child)['classname'] == 'SysLink':
-                # click "customize Link
-                move_click_cursor(dumpwindow(handle=child)['rectangle'])
-                time.sleep(3)
-                # open pop up window
-                for item in dumpwindow(handle=search_window())['children']:
-                    print(dumpwindow(handle=item))
-                    move_cursor(dumpwindow(handle=item)['rectangle'])
-                    # scroll bar
-                    if dumpwindow(handle=item)["classname"] == 'ScrollBar':
-                        move_click_cursor(dumpwindow(handle=item)['rectangle'], number=3)
+            try:
+                if dumpwindow(handle=child)['classname'] == 'SysLink':
+                    # click "customize Link
+                    move_click_cursor(dumpwindow(handle=child)['rectangle'])
+                    time.sleep(3)
+                    # open pop up window
+                    for item in dumpwindow(handle=search_window())['children']:
+                        print(dumpwindow(handle=item))
+                        move_cursor(dumpwindow(handle=item)['rectangle'])
+                        # scroll bar
+                        if dumpwindow(handle=item)["classname"] == 'ScrollBar':
+                            move_click_cursor(dumpwindow(handle=item)['rectangle'], number=3)
 
-                    elif dumpwindow(handle=item)["classname"] == "CtrlNotifySink":
-                        move_click_cursor(dumpwindow(handle=item)['rectangle'])
-                        time.sleep(1)
-                        # item option list
-                        for child in dumpwindow(handle=search_window())['children']:
-                            move_cursor(dumpwindow(handle=item)['rectangle'])
+                        elif dumpwindow(handle=item)["classname"] == "CtrlNotifySink":
+                            move_click_cursor(dumpwindow(handle=item)['rectangle'])
+                            time.sleep(1)
+                            # item option list
+                            for child in dumpwindow(handle=search_window())['children']:
+                                move_cursor(dumpwindow(handle=item)['rectangle'])
 
-                    # Ok Button
-                    elif dumpwindow(handle=item)["text"] == "OK":
-                        OK_Button_POS = dumpwindow(handle=item)['rectangle']
+                        # Ok Button
+                        elif dumpwindow(handle=item)["text"] == "OK":
+                            OK_Button_POS = dumpwindow(handle=item)['rectangle']
 
-                    # Cancel Button
-                    elif dumpwindow(handle=item)["text"] == "Cancel":
-                        Cancel_Button_POS = dumpwindow(handle=item)['rectangle']
+                        # Cancel Button
+                        elif dumpwindow(handle=item)["text"] == "Cancel":
+                            Cancel_Button_POS = dumpwindow(handle=item)['rectangle']
 
-            elif dumpwindow(handle=child)['classname'] == 'ToolbarWindow32':
-                # click "NotifyArea"
-                pass
+                elif dumpwindow(handle=child)['classname'] == 'ToolbarWindow32':
+                    # click "NotifyArea"
+                    pass
 
-                # move_click_cursor(OK_Button_POS)
+                    # move_click_cursor(OK_Button_POS)
+            except Exception as e:
+                print('Exception: {}'.format(e))
 
     def start_menu(self):
         # try:
@@ -146,7 +149,7 @@ class Office():
                 self.file_menu = child_dump['rectangle']
 
             elif child_dump['classname'] == 'RICHEDIT50W' and str(child_dump['text']).isdigit():
-                print('self.font_size')
+                print('self.font_size ')
                 self.font_size = child_dump['rectangle']
 
             elif child_dump['classname'] == 'RICHEDIT50W' and child_dump['text'] != '':
@@ -178,7 +181,7 @@ class Office():
     def change_font_sytle(self):
         """
         Change font style
-        :return: 
+        :return:
         """
         try:
             move_click_cursor(self.font_style)
@@ -188,6 +191,7 @@ class Office():
             keyboard.typewrite(str(random.randint(13, 25)))
             time.sleep(1)
             keyboard.hotkey('ENTER')
+
         except Exception as e:
             print('Change_font_style function => Got Error: {}'.format(e))
 
@@ -196,7 +200,7 @@ class Office():
         Change Zoom in.
         :return: 
         """
-        for i in range(random.randint(1, 3)):
+        for i in range(random.randint(2, 3)):
             time.sleep(1)
             move_click_cursor(self.zoomin)
 
@@ -205,7 +209,7 @@ class Office():
         Change Zoom out.
         :return: 
         """
-        for i in range(random.randint(1, 3)):
+        for i in range(random.randint(1, 2)):
             time.sleep(1)
             move_click_cursor(self.zoomout)
 
