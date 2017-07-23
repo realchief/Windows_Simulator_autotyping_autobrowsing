@@ -39,6 +39,7 @@ def senario_2():
     Start browser first and login with username and password, read trash, inbox, and compose email
     :return: 
     """
+
     try:
         browser.start()
         browser.login()
@@ -55,6 +56,7 @@ def senario_2():
         office.start()
         office.write_letters()
         office.close_save_office()
+
     except Exception as e:
         print("Exception: {}".format(e))
 

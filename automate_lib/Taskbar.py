@@ -88,7 +88,6 @@ class Taskbar():
         start clock time on the taskbar.
         :return: 
         """
-
         print(self.shell_trayWnd)
         trayClock = self.shell_trayWnd[u'TrayClockWClass']
         move_click_cursor(trayClock.Rectangle())
@@ -147,6 +146,9 @@ class Office():
 
             elif child_dump['classname'] == 'UIRibbonCommandBarDock' and child_dump['text'] == "UIRibbonDockTop":
                 self.file_menu = child_dump['rectangle']
+
+            elif child_dump['classname'] == 'RICHEDIT50W' and child_dump['text'] == '\r\n':
+                self.doc_body = child_dump['rectangle']
 
             elif child_dump['classname'] == 'RICHEDIT50W' and str(child_dump['text']).isdigit():
                 print('self.font_size ')
@@ -283,6 +285,10 @@ class Office():
         Manipulate some font size, font style, bold, italic, etc.
         :return:
         """
+        move_click_cursor(self.file_menu)
+        time.sleep(2)
+        move_click_cursor(self.file_menu)
+        time.sleep(2)
         modify_function_list = [self.change_zoomin(), self.change_zoomout()]
         random.shuffle(modify_function_list)
         print(modify_function_list)
@@ -294,9 +300,9 @@ class Office():
                 print('Exception: {}'.format(e))
             time.sleep(1)
 
-        move_click_cursor(self.file_menu)
+        time.sleep(1)
+        move_click_cursor(self.doc_body)
         time.sleep(2)
-        move_click_cursor(self.file_menu)
 
 office = Office()
 

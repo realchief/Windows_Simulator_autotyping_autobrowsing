@@ -9,6 +9,7 @@ from crypto.Cipher import PKCS1_v1_5
 from crypto.PublicKey import RSA
 import time
 import paramiko
+import random
 
 """
 Create EC2 instance randomly.
@@ -29,8 +30,10 @@ ec2_client = boto3.client('ec2',
 
 Instances = []
 
+Windows_Instance_Id = "ami-2f250c4f"
+Linux_Instance_Id = "ami-73f7da13"
 
-Instance_Type = ['t2.nano', 't2.micro', 't2.small', 't2.medium', 't2.large', 't2.xlarge', 't2.2xlarge']
+Instance_Type_List = ['t2.nano', 't2.micro', 't2.small', 't2.medium', 't2.large', 't2.xlarge', 't2.2xlarge']
 
 
 class Instance():
@@ -43,7 +46,6 @@ class Instance():
         Save Instance information by json format.
         :return: 
         """
-
         with open('InstanceInfo.txt', 'w') as outfile:
             for item in data:
                 outfile.writelines(item + '\n')
@@ -106,8 +108,8 @@ class Instance():
 
         self.write_info(json_data)
 
-    def create_multi_instances(self, Image_Id="ami-b3daf4d3", Instance_Type="t2.micro", MinCount=1,
-                               MaxCount=1, Key_Name="Windowskey", SubnetId='subnet-6acf8d32', **kwargs):
+    def create_multi_instances(self, Image_Id=Linux_Instance_Id, MinCount=1, MaxCount=1,
+                               Key_Name="Windowskey", SubnetId='subnet-6acf8d32', **kwargs):
         """
         Create multi instances with Testkey file.
         :param num: 
@@ -115,14 +117,16 @@ class Instance():
         """
         global Instances
         try:
-            Instances = ec2_resource.create_instances(
-                ImageId=Image_Id,
-                InstanceType=Instance_Type,
-                MinCount=MinCount,
-                MaxCount=MaxCount,
-                KeyName=Key_Name,
-                SubnetId=SubnetId
-            )
+            for i in range(0, MaxCount):
+                instance_type = random.choice(Instance_Type_List)
+                Instances = ec2_resource.create_instances(
+                    ImageId=Image_Id,
+                    InstanceType=instance_type,
+                    MinCount=1,
+                    MaxCount=1,
+                    KeyName=Key_Name,
+                    SubnetId=SubnetId
+                )
 
         except Exception as e:
             print("Create multi Instances Error: {}".format(e))
@@ -144,7 +148,7 @@ class Instance():
 
 if __name__ == '__main__':
     instance = Instance()
-    # instance.create_key()
-    # instance.create_multi_instances(MaxCount=5)
-    instance.decrypt_ec2_secure_info()
+    instance.create_key()
+    instance.create_multi_instances(MaxCount=1)
+    # instance.decrypt_ec2_secure_info()
     # instance.terminate_multi_instances()
