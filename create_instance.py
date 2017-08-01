@@ -31,7 +31,7 @@ ec2_client = boto3.client('ec2',
 Instances = []
 
 Windows_Instance_Id = "ami-2f250c4f"
-Linux_Instance_Id = "ami-73f7da13"
+Linux_Instance_Id = "ami-9ec9e1fe"
 
 Instance_Type_List = ['t2.nano', 't2.micro', 't2.small', 't2.medium', 't2.large', 't2.xlarge', 't2.2xlarge']
 
