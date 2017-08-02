@@ -177,5 +177,20 @@ class Keyboard():
         self.hotkey('ALT', 'LEFT')
         time.sleep(.5)
 
+    def browser_open_tab(self):
+        """
+        Open new tab on Browser
+        :return: 
+        """
+        self.hotkey('CTRL', 'T')
+        time.sleep(1)
+
+    def browser_switch_tab(self):
+        """
+        Browse new tab
+        :return: 
+        """
+        self.hotkey('CTRL', 'TAB')
+        time.sleep(1)
 
 keyboard = Keyboard()

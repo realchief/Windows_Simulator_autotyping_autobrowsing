@@ -139,7 +139,7 @@ class Office():
             logging.info("Office start function => Information: {}".format(dumpwindow(handle=child)))
 
             if child_dump['classname'] == 'Button' and child_dump['text'] == '-':
-                self.zoomout= child_dump['rectangle']
+                self.zoomout = child_dump['rectangle']
 
             elif child_dump['classname'] == 'Button' and child_dump['text'] == '+':
                 self.zoomin = child_dump['rectangle']

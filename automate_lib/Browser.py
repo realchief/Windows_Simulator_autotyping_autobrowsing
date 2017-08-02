@@ -60,12 +60,16 @@ class Browse():
             print("Browser Start function => Got Error: {}\n".format(e))
             logging.info("Browser Start function => Got Error: {}\n".format(e))
 
-    def browsing(self, url):
+    def browsing(self, url, count):
         """
         Type URL in address bar.
         :param url: 
         :return: 
         """
+        if count % 2 != 0:
+            keyboard.browser_open_tab()
+            time.sleep(2)
+            
         for child in dumpwindow(handle=search_window())['children']:
             print("Browser browsing Function => dumpwindows: {}\n".format(dumpwindow(handle=child)))
             logging.info("Browser browsing Function => dumpwindows: {}\n".format(dumpwindow(handle=child)))
