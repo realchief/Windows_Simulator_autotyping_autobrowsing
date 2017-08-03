@@ -69,7 +69,7 @@ class Browse():
         if count % 2 != 0:
             keyboard.browser_open_tab()
             time.sleep(2)
-            
+
         for child in dumpwindow(handle=search_window())['children']:
             print("Browser browsing Function => dumpwindows: {}\n".format(dumpwindow(handle=child)))
             logging.info("Browser browsing Function => dumpwindows: {}\n".format(dumpwindow(handle=child)))
@@ -390,7 +390,15 @@ class Browse():
         random_repeat = random.randint(3, repeat)
 
         for i in range(random_repeat):
-            self.browsing(random.choice(urls))
+            self.browsing(random.choice(urls), i)
+
+            if i >= 2:
+                j = random.randint(0, i)
+                for j in range(i):
+                    keyboard.browser_switch_tab()
+                    time.sleep(3)
+                    scroll_mouse(count=random.randint(0, 5), sensivity=random.choice([-500, 500]), pause=1.5)
+                    time.sleep(1)
             time.sleep(5)
             self.limit_repeat = 0
             self.browse_populate_site()
@@ -403,7 +411,7 @@ class Browse():
         try:
             self.current_page_elements = []
             # return if repeat three times in one page.
-            if self.limit_repeat > 3:
+            if self.limit_repeat >= 3:
                 return
             time.sleep(5)
             body_element = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
