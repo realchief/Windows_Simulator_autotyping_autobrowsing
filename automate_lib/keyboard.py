@@ -182,7 +182,7 @@ class Keyboard():
         Open new tab on Browser
         :return: 
         """
-        self.hotkey('CTRL', 'T')
+        self.hotkey('CTRL', 't')
         time.sleep(1)
 
     def browser_switch_tab(self):

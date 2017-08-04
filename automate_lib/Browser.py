@@ -413,6 +413,7 @@ class Browse():
             # return if repeat three times in one page.
             if self.limit_repeat >= 3:
                 return
+
             time.sleep(5)
             body_element = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
             move_cursor_browser(self.browser_x + body_element.location['x'] + random.choice([300, 400, 500]),
