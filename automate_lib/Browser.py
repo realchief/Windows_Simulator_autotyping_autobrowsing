@@ -405,7 +405,7 @@ class Browse():
 
     def browse_populate_site(self):
         """
-        Browsing populate sites
+        Browsing populate sites 
         :return: 
         """
         try:
