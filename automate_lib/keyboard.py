@@ -193,4 +193,16 @@ class Keyboard():
         self.hotkey('CTRL', 'TAB')
         time.sleep(1)
 
+
+class Translate():
+    def __init__(self):
+        print('support multi-language')
+
+    def translate(self, lang):
+        """
+        Translate langauge to the other language
+        :param lang: 
+        :return: 
+        """
+
 keyboard = Keyboard()

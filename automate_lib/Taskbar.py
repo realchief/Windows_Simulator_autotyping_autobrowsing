@@ -158,8 +158,9 @@ class Office():
                 print('self.font_style')
                 self.font_style = child_dump['rectangle']
 
-            move_cursor(child_dump['rectangle'])
-            time.sleep(1)
+            # move_cursor(child_dump['rectangle'])
+            # time.sleep(1)
+        self.obj_list = [self.file_menu, self.font_size, self.font_style, self.zoomin, self.zoomout]
 
     def change_font_size(self):
         """
@@ -308,7 +309,9 @@ office = Office()
 
 if __name__ == '__main__':
     time.sleep(3)
-
-    office.start()
-    office.write_letters()
-    office.close_save_office()
+    i = 0
+    while i < 5:
+        office.start()
+        office.write_letters()
+        office.close_save_office()
+        i += 1
