@@ -310,8 +310,7 @@ office = Office()
 if __name__ == '__main__':
     time.sleep(3)
     i = 0
-    while i < 5:
-        office.start()
-        office.write_letters()
-        office.close_save_office()
-        i += 1
+
+    office.start()
+    office.write_letters()
+    office.close_save_office()

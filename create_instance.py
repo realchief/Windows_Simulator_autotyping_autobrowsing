@@ -108,7 +108,7 @@ class Instance():
 
         self.write_info(json_data)
 
-    def create_multi_instances(self, Image_Id=Linux_Instance_Id, MinCount=1, MaxCount=1,
+    def create_multi_instances(self, Image_Id=Windows_Instance_Id, MinCount=1, MaxCount=1,
                                Key_Name="Windowskey", SubnetId='subnet-6acf8d32', **kwargs):
         """
         Create multi instances with Testkey file.
@@ -118,7 +118,8 @@ class Instance():
         global Instances
         try:
             for i in range(0, MaxCount):
-                instance_type = random.choice(Instance_Type_List)
+                # instance_type = random.choice(Instance_Type_List)
+                instance_type = 't2.medium'
                 Instances = ec2_resource.create_instances(
                     ImageId=Image_Id,
                     InstanceType=instance_type,
