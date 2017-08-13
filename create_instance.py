@@ -10,6 +10,8 @@ from crypto.PublicKey import RSA
 import time
 import paramiko
 import random
+import argparse
+
 
 """
 Create EC2 instance randomly.
@@ -29,7 +31,7 @@ ec2_client = boto3.client('ec2',
                           region_name=data["AWS_REGION"])
 
 Instances = []
-
+Windows_Initial_Id = "ami-d4dfd1c2"
 Windows_Instance_Id = "ami-2f250c4f"
 Linux_Instance_Id = "ami-9ec9e1fe"
 
@@ -147,9 +149,26 @@ class Instance():
         with open('InstanceInfo.txt', "w"):
             pass
 
-if __name__ == '__main__':
+
+def start():
+    """
+    Entry point function
+    :return: 
+    """
+    # Input Argument ("source image path and output path")
+    ap = argparse.ArgumentParser(description='creating EC2 instance randomly for Linux or Window.')
+    ap.add_argument("-w", "--window", help="Create window Instance", action="store_true")
+    ap.add_argument("-l", "--linux", help="Create Linux Instance", action="store_true")
+    ap.add_argument("-f", "--first", help="when use to make first instance", action="store_true")
+    ap.add_argument("-n", "--number", default='1', help="The number of instances you want to make")
+    args = vars(ap.parse_args())
+    print('args: {}'.format(args))
+
     instance = Instance()
     instance.create_key()
     instance.create_multi_instances(MaxCount=1)
     # instance.decrypt_ec2_secure_info()
     # instance.terminate_multi_instances()
+
+if __name__ == '__main__':
+    start()
