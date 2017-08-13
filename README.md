@@ -29,11 +29,7 @@ Create a python script to simulate user activity on aws ec2.
     ```
         python create_instance.py -f -w
     ```
-    Or
-    ```
-        python create_instance.py -f -l
-    ```
-    
+       
 - Step 2:
     
     This step is only for windows instance. 
@@ -81,7 +77,7 @@ Create a python script to simulate user activity on aws ec2.
             *** program/script: the location of python.exe (for example: C:\Python27\python.exe)
             *** Add arguments: the location of script (for example: C:\workspace_1\simulate.py)
         
-        In last step, click *Finish*.
+        In last step, click *Finish* button.
         
 - Step 6:
 
