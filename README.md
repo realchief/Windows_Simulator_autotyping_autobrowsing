@@ -58,4 +58,42 @@ Create a python script to simulate user activity on aws ec2.
     * Install Python2.7.exe
         open the *Internet Explorer* and search python2.7 on google, download that and run the exe file to install python 2.7
         
+    * Copy source code to Instance which you made above. you can put that source code on *C://workspace* path.
     
+- Step 4:    
+
+    Set Internet Explorer security option
+    
+- Step 5:
+
+    This step should be set that script would be run whenever user login.
+    For this
+    
+    * Click the Windows *Start menu*, click *Control Panel* > *Administrative Tools* and click *Task Scheduler*.
+    
+    * The Actions pane, on the right, has the Create Basic Task action, and this is the place to start.
+    
+    * Clicking on Create Basic Task opens a wizard where you define the name of your task, the trigger (when it runs), and the action (what program to run).
+    
+        ** name: you can type something what you want to type (for example: simulator)
+        ** trigger: select *When I log on*
+        ** Action: select *Start a Program*
+            *** program/script: the location of python.exe (for example: C:\Python27\python.exe)
+            *** Add arguments: the location of script (for example: C:\workspace_1\simulate.py)
+        
+        In last step, click *Finish*.
+        
+- Step 6:
+
+    This step is to install *tightvnc* on windows instance.
+    For this
+    
+    * Open the *Internet Explorer* and search *tightvnc* and download, Install it.
+     after installed, it will be displayed the window to set password for *tightvnc*. you can set password as you want.
+     I set *admin* as password. so that you can connect to instance with ip address and password via *tightvnc*.
+     
+# Note
+
+After you have already set new instance,then you can snapshot this instance to create custom AMI.
+
+We can use this custom AMI directly to create multi-instance at once.
