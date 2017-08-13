@@ -58,7 +58,16 @@ Create a python script to simulate user activity on aws ec2.
     
 - Step 4:    
 
-    Set Internet Explorer security option
+    Set Internet Explorer security level.
+    
+    * Click the *Internet Explorer* icon on the *start menu* to open the program.
+    * Click the Tools button in the toolbar at the top of the browser window. Select Internet Options from the Tools menu.
+    * Select *Security* Tab and Select *internet zone*.
+    * on below panel, select *custom level...* to change security parameters.
+        ** on Miscellaneous section, click enable in Access data sources across domains.
+        ** on Scripting section, click enable in Active scripting.
+        
+    * After completed above, click "OK".
     
 - Step 5:
 
