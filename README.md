@@ -102,3 +102,15 @@ Create a python script to simulate user activity on aws ec2.
 After you have already set new instance,then you can snapshot this instance to create custom AMI.
 
 We can use this custom AMI directly to create multi-instance at once.
+
+
+## In development (TODO)
+
+- Add feature to support Multi-language while writing to Wordpad Document.
+- Improve feature to browse random site.
+    * Issues
+        This is taking long time to browse a site and this is happening on one tab.
+    
+    * Switch tab while browsing.
+    * Speed up to browse a site as possible as similarity to human action.
+- Add features to switch between office and browser.
