@@ -395,10 +395,12 @@ class Browse():
             if i >= 2:
                 j = random.randint(0, i)
                 for j in range(i):
+
                     keyboard.browser_switch_tab()
                     time.sleep(3)
                     scroll_mouse(count=random.randint(0, 5), sensivity=random.choice([-500, 500]), pause=1.5)
                     time.sleep(1)
+
             time.sleep(5)
             self.limit_repeat = 0
             self.browse_populate_site()
@@ -415,7 +417,7 @@ class Browse():
                 return
 
             time.sleep(5)
-            body_element = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
+            body_element = WebDriverWait(self.driver, 30).until(EC.prsence_of_element_located((By.TAG_NAME, "body")))
             move_cursor_browser(self.browser_x + body_element.location['x'] + random.choice([300, 400, 500]),
                                 self.browser_y + body_element.location['y'] + random.choice([50, 100, 150, 200]))
             time.sleep(1)

@@ -102,6 +102,7 @@ class Instance():
                                                 'type': item['InstanceType'],
                                                 'winpwd': self.win_pwd,
                                                 'public_ip': item['PublicIpAddress']}))
+
                 except Exception as e:
                     print('Create Instance => Got Error: {}'.format(e))
                     json_data = []

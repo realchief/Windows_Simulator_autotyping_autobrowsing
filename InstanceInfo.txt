@@ -1,0 +1,1 @@
+{"public_ip": "54.224.65.1", "type": "t2.medium", "id": "i-06b14fdcf72d7db16", "winpwd": "ogJ2g?Tix;d"}

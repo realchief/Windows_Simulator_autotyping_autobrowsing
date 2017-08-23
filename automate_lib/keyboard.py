@@ -5,6 +5,7 @@ import random
 import time
 from const import *
 import logging
+from translate import translator
 
 logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
@@ -152,6 +153,13 @@ class Keyboard():
         self.hotkey('ALT', 'SPACE')
         time.sleep(.5)
         self.keypress(['x'])
+
+    def switch_lg(self):
+        """
+        Switch language
+        :return: 
+        """
+        self.hotkey('SHIFT', 'ALT')
 
     def close(self):
         """

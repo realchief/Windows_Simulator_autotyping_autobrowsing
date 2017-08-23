@@ -28,6 +28,7 @@ def scrapy_content_newsurl():
         while True:
             if try_count > len(article_urls):
                 scrapy_content_newsurl()
+
             else:
                 url = article_urls[random.randint(0, len(article_urls)-1)]
                 a = Article(url)

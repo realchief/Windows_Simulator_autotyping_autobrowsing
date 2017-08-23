@@ -99,7 +99,7 @@ Create a python script to simulate user activity on aws ec2.
      
 # Note
 
-After you have already set new instance,then you can snapshot this instance to create custom AMI.
+After you have already set new instance,then you can snapshot t0000his instance to create custom AMI.
 
 We can use this custom AMI directly to create multi-instance at once.
 

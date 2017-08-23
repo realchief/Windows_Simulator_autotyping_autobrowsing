@@ -16,6 +16,7 @@ class Taskbar():
     def hidden_icons(self):
         hidden = self.shell_trayWnd[u'4']
 
+
         # Get location of hidden Icons.
         move_click_cursor(hidden.Rectangle())
 
@@ -47,14 +48,13 @@ class Taskbar():
                         elif dumpwindow(handle=item)["text"] == "OK":
                             OK_Button_POS = dumpwindow(handle=item)['rectangle']
 
-                        # Cancel Button
+                        # Cancel Butriter.
                         elif dumpwindow(handle=item)["text"] == "Cancel":
                             Cancel_Button_POS = dumpwindow(handle=item)['rectangle']
 
                 elif dumpwindow(handle=child)['classname'] == 'ToolbarWindow32':
                     # click "NotifyArea"
                     pass
-
                     # move_click_cursor(OK_Button_POS)
             except Exception as e:
                 print('Exception: {}'.format(e))
@@ -74,13 +74,15 @@ class Taskbar():
         #         # if dumpwindow(handle=child)['text'] == "All Programs":
         #         #     All_Programs_handle = child
         #
-        #     # In "All programs", scroll action.
-        #     if All_Programs_handle is not None:
+        #     # In "All programs", scroll action. whi
+        #     if All_Progra
+        # ms_handle is not None:
         #         move_click_cursor(dumpwindow(handle=All_Programs_handle)['rectangle'])
         #         scroll_mouse(10, 50)
         #         scroll_mouse(10, -50)
         # except Exception as e:
         #     logging.info("Taskbar start_menu function => Got Error: {}".format(e))
+        time.sleep(2)
         keyboard.hotkey('CTRL', 'ESC')
 
     def clock_time(self):
@@ -88,10 +90,12 @@ class Taskbar():
         start clock time on the taskbar.
         :return: 
         """
+
         print(self.shell_trayWnd)
         trayClock = self.shell_trayWnd[u'TrayClockWClass']
         move_click_cursor(trayClock.Rectangle())
         time.sleep(1)
+
         # open time window.
         for child in dumpwindow(handle=search_window())['children']:
             print(dumpwindow(handle=child))
@@ -108,6 +112,19 @@ class Taskbar():
 
         move_cursor(mstaskwwclass.Rectangle())
 
+    def switch_language(self):
+        """
+        Switch languages
+        :return: 
+        """
+        lgbtn = self.shell_trayWnd[u'3']
+        lgbtn_wrap = lgbtn.wrapper_object()
+
+        move_click_cursor(lgbtn_wrap.Rectangle())
+        time.sleep(2)
+        move_click_cursor(lgbtn_wrap.Rectangle())
+
+        keyboard.switch_lg()
 
 taskbar = Taskbar()
 
@@ -158,8 +175,6 @@ class Office():
                 print('self.font_style')
                 self.font_style = child_dump['rectangle']
 
-            # move_cursor(child_dump['rectangle'])
-            # time.sleep(1)
         self.obj_list = [self.file_menu, self.font_size, self.font_style, self.zoomin, self.zoomout]
 
     def change_font_size(self):
@@ -300,8 +315,6 @@ class Office():
             except Exception as e:
                 print('Exception: {}'.format(e))
             time.sleep(1)
-
-        time.sleep(1)
         move_click_cursor(self.doc_body)
         time.sleep(2)
 
@@ -309,8 +322,10 @@ office = Office()
 
 if __name__ == '__main__':
     time.sleep(3)
+    # taskbar.switch_language()
     i = 0
-
-    office.start()
-    office.write_letters()
-    office.close_save_office()
+    while i < 4:
+       office.start()
+       office.write_letters()
+       office.close_save_office()
+       i += 1
