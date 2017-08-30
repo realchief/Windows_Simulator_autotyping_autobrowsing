@@ -16,7 +16,6 @@ class Taskbar():
     def hidden_icons(self):
         hidden = self.shell_trayWnd[u'4']
 
-
         # Get location of hidden Icons.
         move_click_cursor(hidden.Rectangle())
 
@@ -125,6 +124,7 @@ class Taskbar():
         move_click_cursor(lgbtn_wrap.Rectangle())
 
         keyboard.switch_lg()
+
 
 taskbar = Taskbar()
 
@@ -318,14 +318,15 @@ class Office():
         move_click_cursor(self.doc_body)
         time.sleep(2)
 
+
 office = Office()
 
 if __name__ == '__main__':
     time.sleep(3)
     # taskbar.switch_language()
     i = 0
-    while i < 4:
-       office.start()
-       office.write_letters()
-       office.close_save_office()
-       i += 1
+    while i < 2:
+        office.start()
+        office.write_letters()
+        office.close_save_office()
+        i += 1

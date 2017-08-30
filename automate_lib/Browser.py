@@ -355,6 +355,7 @@ class Browse():
             # Count < 5
             if self.RANDOM_BROWSE_COUNT <= 5:
                 self.random_browsing()
+
         except Exception as e:
             logging.info('Browser search google Function => Got Errors: {}'.format(e))
 
@@ -388,11 +389,12 @@ class Browse():
         urls = parse_csv()
 
         random_repeat = random.randint(3, repeat)
+        print('repeat number: {}'.format(random_repeat))
 
         for i in range(random_repeat):
             self.browsing(random.choice(urls), i)
 
-            if i >= 2:
+            if i >= 1:
                 j = random.randint(0, i)
                 for j in range(i):
 
@@ -479,16 +481,16 @@ class Browse():
             if len(self.current_page_elements) == 0:
                 print('no found elements')
                 return
-            print('3')
+
             random_element = random.choice(self.current_page_elements)
-            print('4')
+
             print('random element: {}, {}, {}'.format(random_element.location['x'],
                                                       random_element.location['y'],
                                                       random_element.text))
 
             move_click_browser(self.browser_x + random_element.location['x'],
                                self.browser_y + random_element.location['y'] - self.page_start)
-            print('5')
+
             self.limit_repeat += 1
             time.sleep(5)
             self.browse_populate_site()
