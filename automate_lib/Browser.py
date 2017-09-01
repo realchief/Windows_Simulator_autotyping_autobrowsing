@@ -19,6 +19,7 @@ class Browse():
         self.limit_repeat = 0
         self.current_page_elements = []
         self.Browser_threads = []
+        self.tabs = []
 
     def start(self):
         time.sleep(3)
@@ -28,13 +29,12 @@ class Browse():
             self.driver = webdriver.Ie("C:/workspace_1/automate_lib/IEDriverServer.exe")
 
         time.sleep(2)
-        # keyboard.maximize()
-        # time.sleep(2)
+        keyboard.maximize()
+        time.sleep(2)
 
         try:
             for child in dumpwindow(handle=search_window())['children']:
                 print("Browser Start function => Dumpwindow: {}\n".format(dumpwindow(handle=child)))
-                logging.info("Browser Start function => Dumpwindow: {}\n".format(dumpwindow(handle=child)))
 
                 # get browser address bar location.
                 if dumpwindow(handle=child)['classname'] == 'Frame Tab':
@@ -58,7 +58,6 @@ class Browse():
 
         except Exception as e:
             print("Browser Start function => Got Error: {}\n".format(e))
-            logging.info("Browser Start function => Got Error: {}\n".format(e))
 
     def browsing(self, url, count):
         """
@@ -72,7 +71,6 @@ class Browse():
 
         for child in dumpwindow(handle=search_window())['children']:
             print("Browser browsing Function => dumpwindows: {}\n".format(dumpwindow(handle=child)))
-            logging.info("Browser browsing Function => dumpwindows: {}\n".format(dumpwindow(handle=child)))
 
             if dumpwindow(handle=child)['text'] == 'Address Bar':
                 move_click_cursor(dumpwindow(handle=child)['rectangle'])
@@ -393,7 +391,7 @@ class Browse():
 
         for i in range(random_repeat):
             self.browsing(random.choice(urls), i)
-
+            print('tab title: {}'.format(self.driver.current_url))
             if i >= 1:
                 j = random.randint(0, i)
                 for j in range(i):
