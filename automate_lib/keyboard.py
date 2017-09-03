@@ -5,7 +5,7 @@ import random
 import time
 from const import *
 import logging
-from translate import translator
+
 
 logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 

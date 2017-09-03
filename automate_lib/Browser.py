@@ -391,15 +391,18 @@ class Browse():
 
         for i in range(random_repeat):
             self.browsing(random.choice(urls), i)
+            time.sleep(3)
             print('tab title: {}'.format(self.driver.current_url))
             if i >= 1:
                 j = random.randint(0, i)
                 for j in range(i):
-
+                    time.sleep(3)
                     keyboard.browser_switch_tab()
                     time.sleep(3)
                     scroll_mouse(count=random.randint(0, 5), sensivity=random.choice([-500, 500]), pause=1.5)
                     time.sleep(1)
+
+                keyboard.browser_switch_tab()
 
             time.sleep(5)
             self.limit_repeat = 0
@@ -417,7 +420,7 @@ class Browse():
                 return
 
             time.sleep(5)
-            body_element = WebDriverWait(self.driver, 30).until(EC.prsence_of_element_located((By.TAG_NAME, "body")))
+            body_element = WebDriverWait(self.driver, 30).until(EC.presence_of_element_located((By.TAG_NAME, "body")))
             move_cursor_browser(self.browser_x + body_element.location['x'] + random.choice([300, 400, 500]),
                                 self.browser_y + body_element.location['y'] + random.choice([50, 100, 150, 200]))
             time.sleep(1)
@@ -435,8 +438,8 @@ class Browse():
             self.page_start = self.height * count
             self.page_end = self.height * (count + 1)
 
-            print('page_start: {}, page_end: {}'.format(self.page_start, self.page_end))
-            print('link_elements Length: {}, link_elements: {}'.format(len(link_elements), link_elements))
+            # print('page_start: {}, page_end: {}'.format(self.page_start, self.page_end))
+            # print('link_elements Length: {}, link_elements: {}'.format(len(link_elements), link_elements))
 
             scroll_mouse(count=pageScroll_count, sensivity=-self.height, pause=1.5)
             scroll_mouse(count=pageScroll_count, sensivity=self.height, pause=0.5)
