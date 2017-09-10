@@ -5,8 +5,6 @@ from web import *
 from datetime import datetime
 import logging
 
-logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
-
 
 class Taskbar():
     def __init__(self):
@@ -132,7 +130,6 @@ taskbar = Taskbar()
 class Office():
     def __init__(self):
         print("Starting Office")
-        logging.info("Office init function => Starting Office Class....")
         self.zoomin = self.zoomout = None
         self.font_style = self.font_size = None
 
@@ -153,7 +150,6 @@ class Office():
         for index, child in enumerate(dumpwindow(handle=search_window())['children']):
             child_dump = dumpwindow(handle=child)
             print(child_dump)
-            logging.info("Office start function => Information: {}".format(dumpwindow(handle=child)))
 
             if child_dump['classname'] == 'Button' and child_dump['text'] == '-':
                 self.zoomout = child_dump['rectangle']
@@ -246,7 +242,6 @@ class Office():
         :return: 
         """
         print('write letters')
-        logging.info("Office Write_letters function => write letters.\n")
         self.modify_properties()
         time.sleep(3)
         scrapy_content_newsurl()
@@ -325,7 +320,7 @@ if __name__ == '__main__':
     time.sleep(3)
     # taskbar.switch_language()
     i = 0
-    while i < 2:
+    while i < 1:
         office.start()
         office.write_letters()
         office.close_save_office()

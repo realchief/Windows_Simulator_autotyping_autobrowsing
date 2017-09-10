@@ -10,11 +10,9 @@ import pywinauto
 import time, csv
 import logging
 
-logging.basicConfig(level=logging.INFO, filename='auto-simulator.txt')
 
 screenWidth, screenHeight = pyautogui.size()
 print('Width: {}, Height: {}'.format(screenWidth, screenHeight))
-logging.info('Windows => Width: {}, Height: {}'.format(screenWidth, screenHeight))
 stop_timea = 0.1
 stop_timeb = 2
 app = Application()
@@ -136,7 +134,6 @@ def scroll_mouse(count=1, sensivity=200, pause=0.5, sleep_time=.5):
         try:
             # time.sleep(random.uniform(stop_timea, stop_timeb))
             print("scrolling: {} times".format(i))
-            logging.info("scrolling: {} times\n".format(i))
             pyautogui.scroll(sensivity, pause=pause)
             time.sleep(sleep_time)
         except Exception as e:
@@ -168,7 +165,6 @@ def search_window():
     try:
         found_window = findwindows.find_window(active_only=True, enabled_only=True, visible_only=True)
         print('found_window: {}\n'.format(found_window))
-        logging.info('found_window: {}\n'.format(found_window))
         return found_window
     except pywinauto.findwindows.ElementAmbiguousError:
         print('There was more then one element that matched')
