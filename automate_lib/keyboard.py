@@ -189,12 +189,21 @@ class Keyboard():
         self.hotkey('CTRL', 't')
         time.sleep(1)
 
-    def browser_switch_tab(self):
+    def browser_switch_tab(self, count=1):
         """
         Browse new tab
         :return: 
         """
-        self.hotkey('CTRL', 'TAB')
+        for i in range(0, count):
+            self.hotkey('CTRL', 'TAB')
+            time.sleep(2)
+
+    def browser_close_tab(self):
+        """
+        Browse new tab
+        :return: 
+        """
+        self.hotkey('CTRL', 'w')
         time.sleep(1)
 
 

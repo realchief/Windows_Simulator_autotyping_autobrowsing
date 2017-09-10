@@ -320,7 +320,7 @@ if __name__ == '__main__':
     time.sleep(3)
     # taskbar.switch_language()
     i = 0
-    while i < 1:
+    while i < 10:
         office.start()
         office.write_letters()
         office.close_save_office()
