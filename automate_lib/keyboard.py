@@ -84,6 +84,13 @@ class Keyboard():
 
         time.sleep(.2)
 
+    def addressBar(self):
+        """
+        Locate on address bar.
+        :return:
+        """
+        self.hotkey('ALT', 'd')
+        
     def typemail(self, word):
         """
         Type login and username in Form
@@ -196,7 +203,7 @@ class Keyboard():
         """
         for i in range(0, count):
             self.hotkey('CTRL', 'TAB')
-            time.sleep(2)
+            time.sleep(5)
 
     def browser_close_tab(self):
         """

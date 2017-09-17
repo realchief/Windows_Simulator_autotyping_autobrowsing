@@ -143,9 +143,9 @@ class Office():
         keyboard.hotkey('enter')
         time.sleep(3)
 
-        keyboard.maximize()
-        time.sleep(3)
-        keyboard.hotkey('enter')
+        # keyboard.maximize()
+        # time.sleep(3)
+        # keyboard.hotkey('enter')
         print(dumpwindow(handle=search_window()))
         for index, child in enumerate(dumpwindow(handle=search_window())['children']):
             child_dump = dumpwindow(handle=child)
@@ -242,7 +242,7 @@ class Office():
         :return: 
         """
         print('write letters')
-        self.modify_properties()
+        # self.modify_properties()
         time.sleep(3)
         scrapy_content_newsurl()
         time.sleep(3)
@@ -258,6 +258,7 @@ class Office():
         time.sleep(3)
 
     def close_save_office(self):
+        
         """
         Save the office word
         :return: 
@@ -320,7 +321,7 @@ if __name__ == '__main__':
     time.sleep(3)
     # taskbar.switch_language()
     i = 0
-    while i < 10:
+    while i < 5:
         office.start()
         office.write_letters()
         office.close_save_office()

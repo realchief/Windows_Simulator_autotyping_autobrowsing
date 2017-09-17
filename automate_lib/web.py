@@ -10,13 +10,23 @@ news_urls = [
     'http://www.bild.de/',
     'http://www.thesun.co.uk/',
     'https://www.nytimes.com/',
+    'http://cnn.com',
+    # 'http://sina.com.cn'
 ]
+
+# news_lang = ['zh', 'en', 'de']
 
 
 def scrapy_content_newsurl():
     article_urls = []
     news_url = choice(news_urls)
+    # language = choice(news_lang)
+    
+    # if news_url == news_urls[5]:
+    #     language = 'zh'
     print('news url: {}'.format(news_url))
+    # print('language: {}'.format(language))
+    
     news_paper = newspaper.build(news_url)
 
     try:

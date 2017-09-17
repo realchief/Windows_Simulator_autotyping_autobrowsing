@@ -53,6 +53,7 @@ def senario_2():
         browser.popular_sites()
         browser.close_borwser()
         time.sleep(5)
+        
         office.start()
         office.write_letters()
         office.close_save_office()
@@ -101,8 +102,8 @@ if __name__ == '__main__':
     taskbar.hidden_icons()
     taskbar.clock_time()
     for item in range(random.choice([3, 4, 5])):
-        # senario_list = [senario_1, senario_2, senario_3, senario_4]
-        # random.choice(senario_list)()
+        senario_list = [senario_1, senario_2, senario_3, senario_4]
+        random.choice(senario_list)()
         if senario_count == 0:
             senario_2()
         elif senario_count == 1:
