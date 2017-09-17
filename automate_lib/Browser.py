@@ -51,6 +51,8 @@ class Browse():
                     self.height = dumpwindow(handle=child)['rectangle'].bottom - \
                                   dumpwindow(handle=child)['rectangle'].top
                     
+                    move_click_browser(dumpwindow(handle=child)['rectangle'].left, dumpwindow(handle=child)['rectangle'].bottom)
+                    
             time.sleep(2)
         
         except Exception as e:
@@ -458,7 +460,7 @@ class Browse():
                                                       random_element.location['y'],
                                                       random_element.text.encode('utf-8')))
             
-            random_scroll_count = int(random_element.location['y'] / self.height) + 1
+            random_scroll_count = random_element.location['y'] / self.height
             print('random_scroll_count: {}'.format(random_scroll_count))
             print(self.height * random_scroll_count)
             
