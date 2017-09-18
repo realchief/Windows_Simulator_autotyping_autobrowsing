@@ -359,7 +359,7 @@ class Browse():
         self.driver.execute_script("window.scrollTo(0," + str(page_start) + ");")
         time.sleep(.8)
     
-    def popular_sites(self, repeat=5):
+    def popular_sites(self, repeat=10):
         """
         Visit popular sites
         :return: 
@@ -384,7 +384,9 @@ class Browse():
         # close browser tabs
         while self.opened_tabs >= 1:
             print('closed tabs')
-            keyboard.browser_switch_tab(count=random.randint(0, self.opened_tabs))
+            tab_index = random.randint(0, self.opened_tabs-1)
+            keyboard.browser_switch_tab(count=tab_index)
+            self.driver.switch_to.window(self.driver.window_handles[tab_index])
             random.choice([self.close_tab, self.browse_populate_site])()
     
     def close_tab(self):
@@ -403,8 +405,8 @@ class Browse():
         try:
             self.current_page_elements = []
             # return if repeat three times in one page.
-            # if self.limit_repeat >= random.randint(2, 3):
-            if self.limit_repeat >= 1:
+            if self.limit_repeat >= random.randint(2, 3):
+            # if self.limit_repeat >= 1:
                 time.sleep(2)
                 return
             
