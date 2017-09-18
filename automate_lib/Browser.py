@@ -462,7 +462,6 @@ class Browse():
             
             random_scroll_count = random_element.location['y'] / self.height
             print('random_scroll_count: {}'.format(random_scroll_count))
-            print(self.height * random_scroll_count)
             
             if random_scroll_count > 1:
                 self.scroll_page(page_start=int(random_scroll_count) * self.height)
