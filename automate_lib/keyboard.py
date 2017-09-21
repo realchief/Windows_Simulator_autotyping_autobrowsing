@@ -44,7 +44,6 @@ class Keyboard():
         line_count = 1
         scroll_flag = False
         paragraph_line = random.choice([3, 4, 5, 6, 7, 8, 9, 10])
-        print('paragraph_line: {}'.format(paragraph_line))
 
         for word in words_list:
             try:
@@ -52,7 +51,6 @@ class Keyboard():
                 # if line_count
                 if '\n' in word:
                     print('word: {}'.format(word))
-                    print('exist n')
                     line_count += 1
                     scroll_flag = True
 

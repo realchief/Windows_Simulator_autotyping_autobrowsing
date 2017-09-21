@@ -146,7 +146,8 @@ class Office():
         # keyboard.maximize()
         # time.sleep(3)
         # keyboard.hotkey('enter')
-        print(dumpwindow(handle=search_window()))
+        print(
+            dumpwindow(handle=search_window()))
         for index, child in enumerate(dumpwindow(handle=search_window())['children']):
             child_dump = dumpwindow(handle=child)
             print(child_dump)
@@ -181,7 +182,7 @@ class Office():
         try:
             move_click_cursor(self.font_size)
             time.sleep(3)
-            keyboard.hotkey('DOWN')
+            keyboard.hotkey('DOWN') 
             time.sleep(2)
 
             for i in range(random.randint(3, 10)):

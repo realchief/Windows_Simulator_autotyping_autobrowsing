@@ -38,7 +38,7 @@ class Browse():
                                            chrome_options=_chrome_options)
         
         # time.sleep(2)
-        # keyboard.maximize()
+        keyboard.maximize()
         time.sleep(2)
         
         try:
@@ -50,8 +50,6 @@ class Browse():
                     move_click_cursor(dumpwindow(handle=child)['rectangle'])
                     self.height = dumpwindow(handle=child)['rectangle'].bottom - \
                                   dumpwindow(handle=child)['rectangle'].top
-                    
-                    move_click_browser(dumpwindow(handle=child)['rectangle'].left, dumpwindow(handle=child)['rectangle'].bottom)
                     
             time.sleep(2)
         
